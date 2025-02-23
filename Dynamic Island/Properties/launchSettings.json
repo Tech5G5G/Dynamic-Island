@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Dynamic Island (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    },
+    "Dynamic Island (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

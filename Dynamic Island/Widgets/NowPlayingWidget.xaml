@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<local:CoreWidget
+    x:Class="Dynamic_Island.Widgets.NowPlayingWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dynamic_Island.Widgets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d"
+    Background="{ThemeResource CardBackgroundFillColorDefault}" CornerRadius="8">
+    <local:CoreWidget.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+    </local:CoreWidget.RowDefinitions>
+    <local:CoreWidget.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="8" />
+    </local:CoreWidget.ColumnDefinitions>
+    <Grid Height="134" MaxWidth="134" Margin="8" Grid.RowSpan="7">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="{x:Bind CornerRadius}">
+            <Image x:Name="mediaThumbnail" Source="ms-appx:///Assets/DefaultMedia.png" />
+        </StackPanel>
+    </Grid>
+    <TextBlock x:Name="title" Text="Not playing" Style="{ThemeResource TitleNowPlayingTextBlockStyle}" Grid.Column="1" Grid.Row="1" />
+    <TextBlock x:Name="artist" Style="{ThemeResource NowPlayingTextBlockStyle}" Visibility="Collapsed" Grid.Column="1" Grid.Row="2" />
+    <TextBlock x:Name="album" Style="{ThemeResource NowPlayingTextBlockStyle}" Visibility="Collapsed" Grid.Column="1" Grid.Row="3" />
+    <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,6,0,8" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="4">
+        <Button x:Name="previous" Content="{ui:FontIcon Glyph=&#xE892;}" IsEnabled="False" Style="{ThemeResource PlaybackButtonStyle}" Click="Previous" />
+        <Button x:Name="toggle" Content="{ui:FontIcon Glyph=&#xE768;}" IsEnabled="False" Style="{ThemeResource PlaybackButtonStyle}" Click="Toggle" />
+        <Button x:Name="next" Content="{ui:FontIcon Glyph=&#xE893;}" IsEnabled="False" Style="{ThemeResource PlaybackButtonStyle}" Click="Next" />
+    </StackPanel>
+    <ProgressBar x:Name="mediaProgress" Value="0" Foreground="White" Grid.Column="1" Grid.Row="5" />
+</local:CoreWidget>

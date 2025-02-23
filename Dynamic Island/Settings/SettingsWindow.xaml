@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Dynamic_Island.Settings.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dynamic_Island"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d"
+    Title="Settings">
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="DarkIndianRed" Color="#FF8C3F3F" />
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Default">
+                        <SolidColorBrush x:Key="DisabledCaption" Color="DimGray" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Light">
+                        <SolidColorBrush x:Key="DisabledCaption" Color="LightGray" />
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="titleBarArea" Grid.RowSpan="2" Background="{ThemeResource LayerOnAcrylicFillColorDefault}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Spacing="8">
+            <Ellipse Height="12" Width="12" Fill="IndianRed" PointerPressed="Close_PointerPressed" PointerReleased="Close_PointerReleased" PointerExited="Close_PointerExited" />
+            <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+            <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+        </StackPanel>
+        <TextBlock Text="Settings" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <SelectorBar SelectionChanged="ChangeTab" HorizontalAlignment="Center" Grid.Row="1">
+            <SelectorBarItem Icon="{ui:FontIcon Glyph=&#xE790;}" Text="Appearance" />
+            <SelectorBarItem Icon="{ui:FontIcon Glyph=&#xE945;}" Text="Animations" />
+            <SelectorBarItem Icon="{ui:FontIcon Glyph=&#xE767;}" Text="Volume" />
+        </SelectorBar>
+        <ScrollViewer Grid.Row="2" BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="0,1,0,0">
+            <Frame x:Name="view" Padding="8" />
+        </ScrollViewer>
+    </Grid>
+</Window>

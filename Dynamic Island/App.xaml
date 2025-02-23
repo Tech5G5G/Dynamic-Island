@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="Dynamic_Island.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wid="using:Dynamic_Island.Widgets"
+    xmlns:local="using:Dynamic_Island">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ms-appx:///Widgets/Styles.xaml" />
+                <!--Move style from below to seperate file in widgets (also, move widgets out of controls)-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

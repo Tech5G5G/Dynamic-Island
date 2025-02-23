@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Dynamic_Island.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dynamic_Island"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ex="using:WinUIEx"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:tb="using:H.NotifyIcon"
+    xmlns:ani="using:CommunityToolkit.WinUI.Animations"
+    xmlns:dat="using:Dynamic_Island.Extensions"
+    xmlns:con="using:Dynamic_Island.Controls"
+    xmlns:wid="using:Dynamic_Island.Widgets"
+    mc:Ignorable="d"
+    Title="Dynamic Island">
+    <Window.SystemBackdrop>
+        <ex:TransparentTintBackdrop />
+    </Window.SystemBackdrop>
+
+    <con:PillGrid x:Name="pill"
+                       Background="Black"
+                       Width="150"
+                       Height="40"
+                       VerticalAlignment="Top"
+                       CornerRadius="20"
+                       SizeChanged="Window_SizeToPill"
+                       PointerEntered="Pill_PointerEntered"
+                       PointerExited="Pill_PointerExited"
+                       PointerPressed="Pill_PointerPressed"
+                       PointerReleased="Pill_PointerReleased"
+                       PointerMoved="Pill_PointerMoved">
+        <tb:TaskbarIcon ToolTipText="Dynamic Island" ContextMenuMode="SecondWindow">
+            <tb:TaskbarIcon.ContextFlyout>
+                <MenuFlyout AreOpenCloseAnimationsEnabled="False">
+                    <MenuFlyoutItem Text="Settings" Click="OpenSettings" />
+                    <MenuFlyoutItem Text="Exit" Click="Exit" />
+                </MenuFlyout>
+            </tb:TaskbarIcon.ContextFlyout>
+            <tb:TaskbarIcon.IconSource>
+                <tb:GeneratedIconSource Text="&#xE709;" FontFamily="Segoe Fluent Icons" FontSize="96" Foreground="White" />
+            </tb:TaskbarIcon.IconSource>
+        </tb:TaskbarIcon>
+        <FontIcon x:Name="moveIcon" Glyph="&#xE7C2;" FontSize="20" Margin="4" Visibility="Collapsed" />
+        <Grid x:Name="volumeContainer" Padding="12" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ani:Implicit.ShowAnimations>
+                <ani:OpacityAnimation Duration="0:0:0.5" From="0" To="1.0" />
+            </ani:Implicit.ShowAnimations>
+            <Grid>
+                <FontIcon x:Name="volumeIcon" Glyph="&#xE767;" />
+                <FontIcon x:Name="volumeIconBackground" Glyph="&#xE767;" Foreground="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+            </Grid>
+            <ProgressBar x:Name="volume" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="1" />
+            <TextBlock x:Name="volumeLabel" FontSize="15" VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="2" />
+            <!--<wid:NowPlayingWidget />--><!--Show when media playing-->
+        </Grid>
+        <ScrollViewer x:Name="mainView" VerticalScrollBarVisibility="Hidden" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <SelectorBar>
+                    <SelectorBarItem Text="Home" />
+                    <SelectorBarItem Text="Now playing" />
+                    <SelectorBarItem Text="Tray" />
+                    <SelectorBarItem Text="AI?" />
+                </SelectorBar>
+                <SelectorBar HorizontalAlignment="Right">
+                    <SelectorBarItem Text="PinButton" />
+                    <SelectorBarItem Text="Settings" />
+                </SelectorBar>
+                <wid:WidgetsPanel x:Name="widgetsPanel" CanReorderItems="True" WidgetRadius="{x:Bind UIRadius.Value, Mode=OneWay}" ItemsSource="{x:Bind Widgets}" Grid.Row="1" />
+                <ItemsView x:Name="trayContents" SelectionMode="None" Padding="4,0" ItemsSource="{x:Bind tray}" Grid.Row="2">
+                    <ItemsView.Layout>
+                        <LinedFlowLayout ItemsStretch="Fill" MinItemSpacing="4" />
+                    </ItemsView.Layout>
+                    <ItemsView.ItemTemplate>
+                        <DataTemplate x:DataType="dat:DataContainer">
+                            <ItemContainer Margin="0,0,0,4" CornerRadius="{x:Bind MainWindow.UIRadius.Value, Mode=OneWay}">
+                                <Viewbox DataContext="{x:Bind}" Loaded="TrayItem_Loaded" Stretch="UniformToFill" Height="75" />
+                            </ItemContainer>
+                        </DataTemplate>
+                    </ItemsView.ItemTemplate>
+                </ItemsView>
+            </Grid>
+            <ani:Implicit.ShowAnimations>
+                <ani:OpacityAnimation Duration="0:0:0.5" From="0" To="1.0" />
+            </ani:Implicit.ShowAnimations>
+        </ScrollViewer>
+        <Grid x:Name="dragOptions" Visibility="Collapsed" Padding="4" ColumnSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ani:Implicit.ShowAnimations>
+                <ani:OpacityAnimation Duration="0:0:0.5" From="0" To="1.0" />
+            </ani:Implicit.ShowAnimations>
+            <Button x:Name="trayOption" CornerRadius="{x:Bind UIRadius.Value, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <FontIcon Glyph="&#xE7B8;" FontSize="30" Margin="4" />
+            </Button>
+            <Button x:Name="shareOption" CornerRadius="{x:Bind UIRadius.Value, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1">
+                <FontIcon Glyph="&#xE72D;" FontSize="30" Margin="4" />
+            </Button>
+        </Grid>
+        <Grid.ContextFlyout>
+            <MenuFlyout Opening="Flyout_Opening" Closed="Flyout_Closed">
+                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE713;}" Text="Settings" Click="OpenSettings" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE7C2;}" Text="Move" Click="StartMoving" />
+                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE73F;}" Text="Center on screen" Click="CenterOnScreen" />
+            </MenuFlyout>
+        </Grid.ContextFlyout>
+    </con:PillGrid>
+</Window>
