@@ -20,17 +20,17 @@
     </Window.SystemBackdrop>
 
     <con:PillGrid x:Name="pill"
-                       Background="Black"
-                       Width="150"
-                       Height="40"
-                       VerticalAlignment="Top"
-                       CornerRadius="20"
-                       SizeChanged="Window_SizeToPill"
-                       PointerEntered="Pill_PointerEntered"
-                       PointerExited="Pill_PointerExited"
-                       PointerPressed="Pill_PointerPressed"
-                       PointerReleased="Pill_PointerReleased"
-                       PointerMoved="Pill_PointerMoved">
+                  Background="Black"
+                  Width="150"
+                  Height="40"
+                  VerticalAlignment="Top"
+                  CornerRadius="20"
+                  SizeChanged="Window_SizeToPill"
+                  PointerEntered="Pill_PointerEntered"
+                  PointerExited="Pill_PointerExited"
+                  PointerPressed="Pill_PointerPressed"
+                  PointerReleased="Pill_PointerReleased"
+                  PointerMoved="Pill_PointerMoved">
         <tb:TaskbarIcon ToolTipText="Dynamic Island" ContextMenuMode="SecondWindow">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout AreOpenCloseAnimationsEnabled="False">

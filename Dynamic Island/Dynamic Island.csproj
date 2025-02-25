@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\DefaultFile.png" />
-    <None Remove="Controls\PillGrid.xaml" />
     <None Remove="Controls\ResourceGraph.xaml" />
     <None Remove="Controls\URLDisplay.xaml" />
     <None Remove="Widgets\NowPlayingWidget.xaml" />
@@ -100,11 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="SettingsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\PillGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
