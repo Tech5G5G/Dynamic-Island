@@ -50,7 +50,6 @@ namespace Dynamic_Island.Settings
             };
         }
 
-        private static Windows.Graphics.RectInt32 ToRectInt32(Rect rect) => new((int)Math.Round(rect.X), (int)Math.Round(rect.Y), (int)Math.Round(rect.Width), (int)Math.Round(rect.Height));
         private void DrawCaptionCutouts()
         {
             if (!AppWindow.IsVisible || Content.XamlRoot is not XamlRoot root)
@@ -61,7 +60,7 @@ namespace Dynamic_Island.Settings
             Rect maxRect = new(30 * scale, 10 * scale, 12 * scale, 12 * scale);
             Rect minRect = new(50 * scale, 10 * scale, 12 * scale, 12 * scale);
 
-            input.SetRegionRects(NonClientRegionKind.Passthrough, [ToRectInt32(closeRect), ToRectInt32(maxRect), ToRectInt32(minRect)]);
+            input.SetRegionRects(NonClientRegionKind.Passthrough, [closeRect.ToRectInt32(), maxRect.ToRectInt32(), minRect.ToRectInt32()]);
         }
         private void SetCaptionCutouts()
         {
