@@ -18,6 +18,7 @@ global using Microsoft.UI.Xaml.Media.Animation;
 global using Microsoft.UI.Xaml.Media.Imaging;
 global using Microsoft.UI.Xaml.Navigation;
 global using Microsoft.UI.Windowing;
+global using Windows.Graphics;
 global using Windows.Foundation;
 global using Windows.Foundation.Collections;
 global using CommunityToolkit.WinUI.Animations;

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Windows.Graphics;
 
 namespace Dynamic_Island.Helpers
 {

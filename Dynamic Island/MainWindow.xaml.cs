@@ -1,4 +1,3 @@
-using Windows.Graphics;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Storage.FileProperties;
