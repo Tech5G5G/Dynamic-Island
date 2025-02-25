@@ -24,11 +24,13 @@ public static class OtherExtensions
         return image;
     }
 
-    /// <summary>Restarts the <paramref name="timer"/> by invoking <see cref="DispatcherTimer.Stop"/> and <see cref="DispatcherTimer.Start"/>.</summary>
+    /// <summary>Restarts <paramref name="timer"/> by invoking <see cref="DispatcherTimer.Stop"/> and <see cref="DispatcherTimer.Start"/>, whilst setting its <see cref="DispatcherTimer.Interval"/>.</summary>
     /// <param name="timer">The <see cref="DispatcherTimer"/> to restart.</param>
-    public static void Restart(this DispatcherTimer timer)
+    /// <param name="interval">The interval to set the <see cref="DispatcherTimer.Interval"/> to.</param>
+    public static void Restart(this DispatcherTimer timer, TimeSpan interval)
     {
         timer.Stop();
+        timer.Interval = interval;
         timer.Start();
     }
 }

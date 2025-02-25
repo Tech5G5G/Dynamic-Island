@@ -33,7 +33,7 @@ namespace Dynamic_Island
         readonly KeyboardHelper KeyboardHelper = new();
 
         UIElement elementToHide = null;
-        readonly DispatcherTimer ResetAnimationDelayer = new() { Interval = TimeSpan.FromMilliseconds(SettingValues.SizingResetDuration) };
+        readonly DispatcherTimer ResetAnimationDelayer = new() { Interval = TimeSpan.FromMilliseconds(SettingValues.SizingResetDelay) };
 
         nint Handle { get; set; }
         public BindableProperty<CornerRadius> UIRadius { get; set; } = new(new(16));
@@ -118,7 +118,7 @@ namespace Dynamic_Island
                     easingMode: SettingValues.SizingMode,
                     easingType: SettingValues.SizingType,
                     layer: FrameworkLayer.Xaml).Start(pill);
-                ResetAnimationDelayer.Restart();
+                ResetAnimationDelayer.Restart(TimeSpan.FromMilliseconds(SettingValues.SizingResetDelay));
 
                 if (keycode == VolumeKeys.VolumeMute)
                 {
