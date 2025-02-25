@@ -1,5 +1,6 @@
 ﻿namespace Dynamic_Island.Extensions;
 
+/// <summary>Contains extension methods for geometric types and structures, such as <see cref="CornerRadius"/> and <see cref="Rect"/>.</summary>
 public static class GeometricExtensions
 {
     /// <summary>Subtracts two <see cref="CornerRadius"/> from each other; that is, <paramref name="x"/> - <paramref name="y"/>.</summary>

@@ -1,7 +1,9 @@
-﻿using Windows.ApplicationModel.DataTransfer;
+﻿using Windows.Storage;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Dynamic_Island.Extensions;
 
+/// <summary>Contains extension methods for <see cref="DataPackageView"/>.</summary>
 public static class DataPackageExtensions
 {
     /// <summary>Gets the data from a <see cref="DataPackageView"/> and puts it into a <see cref="DataPackage"/>.</summary>
@@ -42,19 +44,21 @@ public static class DataPackageExtensions
 }
 
 /// <summary>Contains the data from the <see cref="DataPackageExtensions.GetData(DataPackageView)"/> extension.</summary>
-/// <param name="formatId">The format of the data.</param>
-/// <param name="data">The data in <see cref="object"/> form.</param>
 public class DataContainer
 {
+    /// <summary>Initializes a new <see cref="DataContainer"/> using the specified <paramref name="formatId"/> and <paramref name="data"/>.</summary>
+    /// <param name="formatId">The format of the data.</param>
+    /// <param name="data">The data in <see cref="object"/> form.</param>
     public DataContainer(string formatId, object data)
     {
         FormatID = formatId;
         Data = data;
     }
-    public DataContainer(Windows.Storage.IStorageItem item)
+    /// <summary>Initializes a new <see cref="DataContainer"/> using an <see cref="IStorageItem"/>.</summary>
+    public DataContainer(IStorageItem item)
     {
         FormatID = StandardDataFormats.StorageItems;
-        Data = new List<Windows.Storage.IStorageItem> { item };
+        Data = new List<IStorageItem> { item };
     }
 
     /// <summary>The format of the data.</summary>
@@ -62,6 +66,8 @@ public class DataContainer
     /// <summary>The data in <see cref="object"/> form.</summary>
     public object Data { get; set; }
 
+    /// <summary>Converts the <see cref="DataContainer"/> to a <see cref="DataPackage"/>, using its <see cref="FormatID"/>.</summary>
+    /// <returns>A <see cref="DataPackage"/> with its format as <see cref="FormatID"/> and data as <see cref="Data"/>.</returns>
     public DataPackage ToDataPackage()
     {
         DataPackage package = new();
