@@ -13,30 +13,23 @@ namespace Dynamic_Island.Settings
             public static SolidColorBrush DarkIndianRed { get; } = new(new() { A = 0xFF, R = 0x8C, G = 0x3F, B = 0x3F });
         }
 
+        InputNonClientPointerSource input;
         readonly UISettings uiSettings = new();
-        readonly InputNonClientPointerSource input;
 
         public SettingsWindow()
         {
             this.InitializeComponent();
-            input = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
 
             WindowHelper.ApplyOverlayProperties(this);
-            AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
-            SetTitleBar(titleBarArea);
+            var manager = WinUIEx.WindowManager.Get(this);
+            manager.Width = 525;
+            manager.Height = 310;
 
             SetTheme();
-            SetCaptionCutouts();
+            UpdateTitlebar();
         }
 
         private ElementTheme GetCurrentTheme() => uiSettings.GetColorValue(UIColorType.Background) == Colors.Black ? ElementTheme.Dark : ElementTheme.Light;
-        private void UpdateUIColor(UISettings sender, object e)
-        {
-            var theme = GetCurrentTheme();
-            DispatcherQueue.TryEnqueue(() => (Content as FrameworkElement).RequestedTheme = theme);
-            _ = PInvoke.SetPreferredAppMode(theme == ElementTheme.Dark ? PreferredAppMode.Dark : PreferredAppMode.Light);
-        }
         private void SetTheme()
         {
             var theme = GetCurrentTheme();
@@ -49,7 +42,27 @@ namespace Dynamic_Island.Settings
                 uiSettings.ColorValuesChanged -= UpdateUIColor;
             };
         }
+        private void UpdateUIColor(UISettings sender, object e)
+        {
+            var theme = GetCurrentTheme();
+            DispatcherQueue.TryEnqueue(() => (Content as FrameworkElement).RequestedTheme = theme);
+            _ = PInvoke.SetPreferredAppMode(theme == ElementTheme.Dark ? PreferredAppMode.Dark : PreferredAppMode.Light);
+        }
 
+        private void UpdateTitlebar()
+        {
+            ExtendsContentIntoTitleBar = true;
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
+            SetTitleBar(titleBarArea);
+
+            input = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+            input.ExitedMoveSize += (s, e) => DrawCaptionCutouts();
+            Activated += (s, e) => DrawCaptionCutouts();
+
+            var content = Content as FrameworkElement;
+            content.Loaded += (s, e) => DrawCaptionCutouts();
+            content.SizeChanged += (s, e) => DrawCaptionCutouts();
+        }
         private void DrawCaptionCutouts()
         {
             if (!AppWindow.IsVisible || Content.XamlRoot is not XamlRoot root)
@@ -61,15 +74,6 @@ namespace Dynamic_Island.Settings
             Rect minRect = new(50 * scale, 10 * scale, 12 * scale, 12 * scale);
 
             input.SetRegionRects(NonClientRegionKind.Passthrough, [closeRect.ToRectInt32(), maxRect.ToRectInt32(), minRect.ToRectInt32()]);
-        }
-        private void SetCaptionCutouts()
-        {
-            Activated += (s, e) => DrawCaptionCutouts();
-            input.ExitedMoveSize += (s, e) => DrawCaptionCutouts();
-
-            var content = Content as FrameworkElement;
-            content.Loaded += (s, e) => DrawCaptionCutouts();
-            content.SizeChanged += (s, e) => DrawCaptionCutouts();
         }
 
         private void Close_PointerPressed(object sender, PointerRoutedEventArgs e) => (sender as Microsoft.UI.Xaml.Shapes.Ellipse).Fill = Brushes.DarkIndianRed;
