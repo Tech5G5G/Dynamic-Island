@@ -24,7 +24,7 @@
         <ColumnDefinition Width="8" />
     </local:CoreWidget.ColumnDefinitions>
     <Grid Height="134" MaxWidth="134" Margin="8" Grid.RowSpan="7">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="{x:Bind CornerRadius}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="{x:Bind CornerRadius, Mode=OneWay}">
             <Image x:Name="mediaThumbnail" Source="ms-appx:///Assets/DefaultMedia.png" />
         </StackPanel>
     </Grid>

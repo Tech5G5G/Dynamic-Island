@@ -55,6 +55,7 @@
             var size = item is CoreWidget widget ? widget.Size : throw new InvalidDataException($"{GetType()} contains item that should be of type {typeof(CoreWidget)}, not {item.GetType()}.");
 
             BindingOperations.SetBinding(container, CanDragProperty, new Binding { Source = canReorderItems.Value, Mode = BindingMode.OneWay });
+            widget.CornerRadius = WidgetRadius;
             WidgetRadiusChanged += (radius) => widget.CornerRadius = radius;
             container.DragStarting += (s, e) =>
             {
