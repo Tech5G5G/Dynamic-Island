@@ -6,10 +6,31 @@
     xmlns:local="using:Dynamic_Island.Settings.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:num="using:Windows.Globalization.NumberFormatting"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="DurationNumberBoxStyle" TargetType="NumberBox">
+            <Setter Property="Header" Value="Duration (ms)" />
+            <Setter Property="PlaceholderText" Value="Duration" />
+            <Setter Property="Minimum" Value="0" />
+            <Setter Property="Maximum" Value="10000" />
+            <Setter Property="SmallChange" Value="10" />
+            <Setter Property="LargeChange" Value="100" />
+            <Setter Property="SpinButtonPlacementMode" Value="Compact" />
+        </Style>
+        <Style x:Key="ModeComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+            <Setter Property="Header" Value="Mode" />
+            <Setter Property="PlaceholderText" Value="Mode" />
+        </Style>
+        <Style x:Key="TypeComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+            <Setter Property="Header" Value="Type" />
+            <Setter Property="PlaceholderText" Value="Type" />
+        </Style>
+    </Page.Resources>
 
-    <Grid ColumnSpacing="8" RowSpacing="8">
+    <Grid RowSpacing="8" ColumnSpacing="8">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -18,22 +39,35 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        
         <TextBlock Text="Opening&#xA;animations" VerticalAlignment="Center" />
-        <ComboBox x:Name="openMode" Header="Mode" PlaceholderText="Mode" Grid.Column="1">
+        <ComboBox x:Name="openMode" Style="{ThemeResource ModeComboBoxStyle}" Grid.Column="1">
             <x:String>Ease out</x:String>
             <x:String>Ease in</x:String>
             <x:String>Ease in out</x:String>
         </ComboBox>
-        <ComboBox x:Name="openType" Header="Type" PlaceholderText="Type" ItemsSource="{x:Bind easingTypes}" Grid.Column="2" />
-        <NumberBox x:Name="openDuration" Header="Duration (ms)" PlaceholderText="Duration" SpinButtonPlacementMode="Compact" SmallChange="10" LargeChange="10" Grid.Column="3" ValueChanged="Number_ValueChanging" />
+        <ComboBox x:Name="openType" Style="{ThemeResource TypeComboBoxStyle}" ItemsSource="{x:Bind easingTypes}" Grid.Column="2" />
+        <NumberBox x:Name="openDuration" Style="{ThemeResource DurationNumberBoxStyle}" Grid.Column="3" />
+        
         <TextBlock Text="Closing&#xA;animations" VerticalAlignment="Center" Grid.Row="1" />
-        <ComboBox x:Name="closeMode" Header="Mode" PlaceholderText="Mode" Grid.Row="1" Grid.Column="1">
+        <ComboBox x:Name="closeMode" Style="{ThemeResource ModeComboBoxStyle}" Grid.Row="1" Grid.Column="1">
             <x:String>Ease out</x:String>
             <x:String>Ease in</x:String>
             <x:String>Ease in out</x:String>
         </ComboBox>
-        <ComboBox x:Name="closeType" Header="Type" PlaceholderText="Type" ItemsSource="{x:Bind easingTypes}" Grid.Row="1" Grid.Column="2" />
-        <NumberBox x:Name="closeDuration" Header="Duration (ms)" PlaceholderText="Duration" SpinButtonPlacementMode="Compact" SmallChange="10" LargeChange="10" Grid.Row="1" Grid.Column="3" ValueChanged="Number_ValueChanging" />
+        <ComboBox x:Name="closeType" Style="{ThemeResource TypeComboBoxStyle}" ItemsSource="{x:Bind easingTypes}" Grid.Row="1" Grid.Column="2" />
+        <NumberBox x:Name="closeDuration" Style="{ThemeResource DurationNumberBoxStyle}" Grid.Row="1" Grid.Column="3" />
+
+        <TextBlock Text="Sizing&#xA;animations" VerticalAlignment="Center" Grid.Row="2" />
+        <ComboBox x:Name="sizingMode" Style="{ThemeResource ModeComboBoxStyle}" Grid.Row="2" Grid.Column="1">
+            <x:String>Ease out</x:String>
+            <x:String>Ease in</x:String>
+            <x:String>Ease in out</x:String>
+        </ComboBox>
+        <ComboBox x:Name="sizingType" Style="{ThemeResource TypeComboBoxStyle}" ItemsSource="{x:Bind easingTypes}" Grid.Row="2" Grid.Column="2" />
+        <NumberBox x:Name="sizingDuration" Style="{ThemeResource DurationNumberBoxStyle}" Grid.Row="2" Grid.Column="3" />
+        <NumberBox x:Name="sizingDelay" Header="Reset delay (ms)" PlaceholderText="Delay" Style="{ThemeResource DurationNumberBoxStyle}" Grid.Row="2" Grid.Column="4" />
     </Grid>
 </Page>

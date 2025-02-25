@@ -16,11 +16,10 @@ namespace Dynamic_Island.Settings
         public static EnumSetting<EasingType> CloseType { get; } = new("CloseType", EasingType.Default);
         public static Setting<int> CloseDuration { get; } = new("CloseDuration", 300);
 
-        //TODO: Implement UI elements for changing these values
         public static EnumSetting<EasingMode> SizingMode { get; } = new("SizingMode", EasingMode.EaseOut);
         public static EnumSetting<EasingType> SizingType { get; } = new("SizingType", EasingType.Default);
         public static Setting<int> SizingDuration { get; } = new("SizingDuration", 300);
-        public static Setting<int> SizingResetDuration { get; } = new("SizingResetDuration", 3000);
+        public static Setting<int> SizingResetDelay { get; } = new("SizingResetDelay", 3000);
 
         public static EnumSetting<VolumeMode> VolumeMode { get; } = new("VolumeMode", Settings.VolumeMode.SliderLabel);
     }
