@@ -1,7 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Windows.Graphics;
-
-namespace Dynamic_Island.Helpers
+﻿namespace Dynamic_Island.Helpers
 {
     /// <summary>Helper to edit window attributes.</summary>
     public static class WindowHelper
@@ -20,7 +17,7 @@ namespace Dynamic_Island.Helpers
             IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
 
             int att = 0;
-            _ = PInvoke.SetWindowAttribute(hWnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref att, Marshal.SizeOf(typeof(int))); //Removes window shadow
+            _ = PInvoke.SetWindowAttribute(hWnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref att, System.Runtime.InteropServices.Marshal.SizeOf(typeof(int))); //Removes window shadow
             PInvoke.SetWindowLong(hWnd, GWL_EXSTYLE, (IntPtr)(PInvoke.GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED)); //Removes window border
 
             return hWnd;
