@@ -21,7 +21,7 @@ namespace Dynamic_Island.Settings
             this.InitializeComponent();
             input = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
 
-            ExtendsContentIntoTitleBar = true;
+            WindowHelper.ApplyOverlayProperties(this);
             AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
             SetTitleBar(titleBarArea);

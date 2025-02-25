@@ -35,13 +35,13 @@ namespace Dynamic_Island
         UIElement elementToHide = null;
         readonly DispatcherTimer ResetAnimationDelayer = new() { Interval = TimeSpan.FromMilliseconds(SettingValues.SizingResetDelay) };
 
-        nint Handle { get; set; }
+        public nint Handle { get; set; }
         public BindableProperty<CornerRadius> UIRadius { get; set; } = new(new(16));
 
         public MainWindow()
         {
             this.InitializeComponent();
-            WindowHelper.ApplyPillProperties(this);
+            WindowHelper.ApplyOverlayProperties(this);
             WindowHelper.HideTitleBar(this);
             Handle = WindowHelper.RemoveBorderElements(this);
 

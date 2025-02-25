@@ -23,9 +23,9 @@
             return hWnd;
         }
 
-        /// <summary>Applies pill window properties to <paramref name="window"/>, like setting <see cref="AppWindow.IsShownInSwitchers"/> to <see langword="false"/>.</summary>
-        /// <param name="window">The window to apply pill properties to.</param>
-        public static void ApplyPillProperties(Window window)
+        /// <summary>Applies overlay window properties to <paramref name="window"/>, like setting <see cref="AppWindow.IsShownInSwitchers"/> to <see langword="false"/>.</summary>
+        /// <param name="window">The window to apply overlay properties to.</param>
+        public static void ApplyOverlayProperties(Window window)
         {
             PInvoke.SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(window));
             window.AppWindow.IsShownInSwitchers = false;
