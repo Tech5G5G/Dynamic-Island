@@ -1,5 +1,15 @@
 ﻿namespace Dynamic_Island.Helpers;
 
+/// <summary>Gets disk statistics.</summary>
+public static class DiskHelper
+{
+    /// <summary>Gets the disk usage.</summary>
+    /// <value>The percent of the disk used.</value>
+    public static float DiskUsage => time.NextValue();
+
+    private static readonly PerformanceCounter time = new("PhysicalDisk", "% Disk Time", "_Total");
+}
+
 /// <summary>Gets CPU statistics.</summary>
 public static class CPUHelper
 {

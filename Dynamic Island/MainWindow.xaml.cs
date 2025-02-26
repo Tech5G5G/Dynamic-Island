@@ -71,7 +71,8 @@ namespace Dynamic_Island
             new NowPlayingWidget(),
             new CPUWidget(),
             new GPUWidget(),
-            new NetworkWidget()
+            new NetworkWidget(),
+            new DiskWidget()
         ];
 
         private void ApplySettings()
