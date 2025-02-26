@@ -13,15 +13,19 @@ namespace Dynamic_Island.Widgets
             };
 
             graph.GraphMargin = new(0, 0, -34, 0);
+            foreach (bool dashed in LinesRequested(graph))
+                graph.AddLine(dashed);
+
             button.Click += (s, e) => ButtonClicked?.Invoke(s, e);
             Tick += async () =>
             {
-                graph.AddPoint(seconds++, await DataRequested(graph));
+                await UpdateGraph(graph, seconds++);
                 primaryText.Text = PrimaryTextRequested(primaryText);
                 secondaryText.Text = SecondaryTextRequested(secondaryText);
             };
         }
-        /// <summary>Fired every second to add a point to the <see cref="ResourceGraph"/>/</summary>
+
+        /// <summary>Fired every second to add a point to the primary line on the <see cref="ResourceGraph"/>.</summary>
         /// <param name="graph">The <see cref="ResourceGraph"/> to add the point to.</param>
         /// <returns>A <see cref="double"/> representing the Y coordinate for the next point.</returns>
         protected abstract Task<double> DataRequested(ResourceGraph graph);
@@ -33,6 +37,15 @@ namespace Dynamic_Island.Widgets
         /// <param name="textBlock">The <see cref="TextBlock"/> to update.</param>
         /// <returns>The text to display in <paramref name="textBlock"/>.</returns>
         protected abstract string SecondaryTextRequested(TextBlock textBlock);
+
+        /// <summary>Fired to get the lines for the <see cref="ResourceGraph"/>.</summary>
+        /// <param name="graph">The <see cref="ResourceGraph"/> to add the lines to.</param>
+        /// <returns>An array of <see cref="bool"/> representing whether the lines should be dashed or not.</returns>
+        protected virtual bool[] LinesRequested(ResourceGraph graph) => [false];
+        /// <summary>Fired every second to update the values for the <see cref="ResourceGraph"/>.</summary>
+        /// <param name="graph">The <see cref="ResourceGraph"/> to update.</param>
+        /// <param name="seconds">The amount of seconds passed since the widget has been created.</param>
+        protected virtual async Task UpdateGraph(ResourceGraph graph, int seconds) => graph.AddPoint(0, seconds, await DataRequested(graph));
 
         /// <summary>Gets or sets the visibility of the displayable button.</summary>
         public Visibility ButtonVisibility
