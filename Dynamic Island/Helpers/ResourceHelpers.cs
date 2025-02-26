@@ -3,11 +3,18 @@
 /// <summary>Gets disk statistics.</summary>
 public static class DiskHelper
 {
-    /// <summary>Gets the disk usage.</summary>
-    /// <value>The percent of the disk used.</value>
-    public static float DiskUsage => time.NextValue();
+    const float BytesInKilobyte = 1024;
 
-    private static readonly PerformanceCounter time = new("PhysicalDisk", "% Disk Time", "_Total");
+    /// <summary>Gets the speed at which data is being read on the disk.</summary>
+    /// <value>The speed of reading operations in KB/s.</value>
+    public static float DiskRead => read.NextValue() / BytesInKilobyte;
+
+    /// <summary>Gets the speed at which data is being written to on the disk.</summary>
+    /// <value>The speed of writing operations in KB/s.</value>
+    public static float DiskWrite => write.NextValue() / BytesInKilobyte;
+
+    private static readonly PerformanceCounter read = new("PhysicalDisk", "Disk Read Bytes/sec", "_Total");
+    private static readonly PerformanceCounter write = new("PhysicalDisk", "Disk Write Bytes/sec", "_Total");
 }
 
 /// <summary>Gets CPU statistics.</summary>
