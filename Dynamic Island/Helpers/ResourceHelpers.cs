@@ -35,20 +35,31 @@ public static class CPUHelper
 /// <summary>Gets network statistics.</summary>
 public static class NetworkHelper
 {
+    const float BitsInByte = 8;
+    const float BitsInKilobit = 1000;
+    private static float BytesToKilobits(float bytes) => bytes * BitsInByte / BitsInKilobit;
+
     static NetworkHelper() => networkCounters = GetNetworkCounters();
 
     /// <summary>Gets the amount of networks available to the system.</summary>
     /// <value>The amount of networks that are available.</value>
     public static int NetworkCount => networkCounters.Count;
 
-    /// <summary>Gets the usage for the specified <paramref name="network"/>.</summary>
-    /// <param name="network">The network to retrieve the usage of. Vaild identifiers can be found using the <see cref="NetworkCount"/> property.</param>
-    /// <returns>The percent of <paramref name="network"/> used.</returns>
-    public static float GetNetworkUsage(int network)
-    {
-        var counters = networkCounters[network - 1];
-        return 8 * (counters.Item1.NextValue() + counters.Item2.NextValue()) / counters.Item3.NextValue();
-    }
+    /// <summary>Gets the speed at which data is sent for the specified <paramref name="network"/>.</summary>
+    /// <param name="network">The network to retrieve the speed of. Vaild identifiers can be found using the <see cref="NetworkCount"/> property.</param>
+    /// <returns>The speed of <paramref name="network"/> sending operations in Kbps.</returns>
+    public static float GetNetworkSend(int network) => BytesToKilobits(networkCounters[network - 1].Item1.NextValue());
+    //return 8 * (counters.Item1.NextValue() + counters.Item2.NextValue()) / counters.Item3.NextValue();
+
+    /// <summary>Gets the speed at which data is received for the specified <paramref name="network"/>.</summary>
+    /// <param name="network">The network to retrieve the speed of. Vaild identifiers can be found using the <see cref="NetworkCount"/> property.</param>
+    /// <returns>The speed of <paramref name="network"/> receiving operations in Kbps.</returns>
+    public static float GetNetworkReceive(int network) => BytesToKilobits(networkCounters[network - 1].Item2.NextValue());
+
+    /// <summary>Gets the bandwidth for the specified <paramref name="network"/>.</summary>
+    /// <param name="network">The network to retrieve the bandwidth of. Vaild identifiers can be found using the <see cref="NetworkCount"/> property.</param>
+    /// <returns>The bandwidth of <paramref name="network"/> in Kbps.</returns>
+    public static float GetNetworkBandwidth(int network) => networkCounters[network - 1].Item3.NextValue() / BitsInKilobit;
 
     private static readonly Dictionary<int, (PerformanceCounter, PerformanceCounter, PerformanceCounter)> networkCounters;
     private static Dictionary<int, (PerformanceCounter, PerformanceCounter, PerformanceCounter)> GetNetworkCounters()
