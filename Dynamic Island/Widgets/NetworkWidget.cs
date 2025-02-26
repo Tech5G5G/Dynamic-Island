@@ -2,7 +2,7 @@
 {
     public sealed partial class NetworkWidget : ResourceWidget
     {
-        private static readonly int[] networks = Enumerable.Range(1, ResourceHelper.NetworkCount).ToArray();
+        private static readonly int[] networks = Enumerable.Range(1, NetworkHelper.NetworkCount).ToArray();
         int network = 1;
 
         float usage = 0;
@@ -19,7 +19,7 @@
             };
         }
 
-        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => (double)(usage = ResourceHelper.GetNetworkUsage(network)) * 100);
+        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => (double)(usage = NetworkHelper.GetNetworkUsage(network)) * 100);
         protected override string PrimaryTextRequested(TextBlock textBlock) => usage.ToString("P0");
         protected override string SecondaryTextRequested(TextBlock textBlock) => string.Empty;
     }
