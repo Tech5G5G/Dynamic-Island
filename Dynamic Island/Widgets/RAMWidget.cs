@@ -9,8 +9,8 @@
             Color = new(0x4F, 0x7E, 0xC2);
         }
 
-        protected override Task<string> PrimaryTextRequested(TextBlock textBlock) => Task.Run(() => MemoryStatus.TryCreate(out status) ? $"{status.UsedMemory:0.##} GB" : "0 GB");
-        protected override string SecondaryTextRequested(TextBlock textBlock) => (percentUsage = status.UsedMemory / status.TotalMemory).ToString("P0");
-        protected override double DataRequested(ResourceGraph graph) => percentUsage * 100;
+        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => MemoryStatus.TryCreate(out status) ? (double)(percentUsage = status.UsedMemory / status.TotalMemory) * 100 : percentUsage * 100);
+        protected override string PrimaryTextRequested(TextBlock textBlock) => $"{status.UsedMemory:0.##} GB";
+        protected override string SecondaryTextRequested(TextBlock textBlock) => percentUsage.ToString("P0");
     }
 }

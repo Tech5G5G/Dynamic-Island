@@ -19,12 +19,8 @@
             };
         }
 
-        //TODO: Fix slow startup
-        //Fix Now Playing widget image corner radius binding
-        //Fix WidgetRadius startup binding
-        //Fix settings window weird behavior with window sizing
-        protected override Task<string> PrimaryTextRequested(TextBlock textBlock) => Task.Run(() => $"{(int)(usage = ResourceHelper.GetNetworkUsage(network))}%");
+        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => (double)(usage = ResourceHelper.GetNetworkUsage(network)) * 100);
+        protected override string PrimaryTextRequested(TextBlock textBlock) => usage.ToString("P0");
         protected override string SecondaryTextRequested(TextBlock textBlock) => string.Empty;
-        protected override double DataRequested(ResourceGraph graph) => usage;
     }
 }

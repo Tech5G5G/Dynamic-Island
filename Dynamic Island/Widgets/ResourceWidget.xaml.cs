@@ -16,23 +16,23 @@ namespace Dynamic_Island.Widgets
             button.Click += (s, e) => ButtonClicked?.Invoke(s, e);
             Tick += async () =>
             {
-                primaryText.Text = await PrimaryTextRequested(primaryText);
+                graph.AddPoint(seconds++, await DataRequested(graph));
+                primaryText.Text = PrimaryTextRequested(primaryText);
                 secondaryText.Text = SecondaryTextRequested(secondaryText);
-                graph.AddPoint(seconds++, DataRequested(graph));
             };
         }
+        /// <summary>Fired every second to add a point to the <see cref="ResourceGraph"/>/</summary>
+        /// <param name="graph">The <see cref="ResourceGraph"/> to add the point to.</param>
+        /// <returns>A <see cref="double"/> representing the Y coordinate for the next point.</returns>
+        protected abstract Task<double> DataRequested(ResourceGraph graph);
         /// <summary>Fired every second to update the text in the primary <see cref="TextBlock"/>.</summary>
         /// <param name="textBlock">The <see cref="TextBlock"/> to update.</param>
         /// <returns>The text to display in <paramref name="textBlock"/>, asynchronously.</returns>
-        protected abstract Task<string> PrimaryTextRequested(TextBlock textBlock);
+        protected abstract string PrimaryTextRequested(TextBlock textBlock);
         /// <summary>Fired every second to update the text in the secondary <see cref="TextBlock"/>.</summary>
         /// <param name="textBlock">The <see cref="TextBlock"/> to update.</param>
         /// <returns>The text to display in <paramref name="textBlock"/>.</returns>
         protected abstract string SecondaryTextRequested(TextBlock textBlock);
-        /// <summary>Fired every second to add a point to the <see cref="ResourceGraph"/>/</summary>
-        /// <param name="graph">The <see cref="ResourceGraph"/> to add the point to.</param>
-        /// <returns>A <see cref="double"/> representing the Y coordinate for the next point.</returns>
-        protected abstract double DataRequested(ResourceGraph graph);
 
         /// <summary>Gets or sets the visibility of the displayable button.</summary>
         public Visibility ButtonVisibility

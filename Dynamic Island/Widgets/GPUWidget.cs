@@ -19,8 +19,8 @@
             };
         }
 
-        protected override async Task<string> PrimaryTextRequested(TextBlock textBlock) => $"{(int)(usage = await ResourceHelper.GetGPUUsage(gpu))}%";
+        protected override async Task<double> DataRequested(ResourceGraph graph) => usage = await ResourceHelper.GetGPUUsage(gpu);
+        protected override string PrimaryTextRequested(TextBlock textBlock) => $"{(int)usage}%";
         protected override string SecondaryTextRequested(TextBlock textBlock) => string.Empty;
-        protected override double DataRequested(ResourceGraph graph) => usage;
     }
 }
