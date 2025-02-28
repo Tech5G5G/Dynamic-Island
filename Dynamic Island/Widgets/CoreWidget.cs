@@ -24,18 +24,15 @@
         /// <summary>Invoked after the size of the widget is changed.</summary>
         public event Action<WidgetSize> WidgetSizeChanged;
 
-        /// <summary>Creates a new <see cref="WidgetProperties"/> depending on the type of <see cref="CoreWidget"/>.</summary>
-        /// <returns>A new instance of <see cref="WidgetProperties"/> containing this <see cref="CoreWidget"/>s properties.</returns>
-        /// <exception cref="NotImplementedException"/>
-        public WidgetProperties GetProperties() => new() { Size = size, Type = GetType().ToString() switch
+        /// <summary>Gets a <see cref="ReadOnlyDictionary{TKey, TValue}"/> of <see cref="Widgets.WidgetType"/>s and their respective <see cref="CoreWidget"/>.</summary>
+        public static ReadOnlyDictionary<WidgetType, Type> WidgetTypes { get; } = new(new Dictionary<WidgetType, Type>()
         {
-            nameof(CPUWidget) => WidgetType.CPU,
-            nameof(GPUWidget) => WidgetType.GPU,
-            nameof(RAMWidget) => WidgetType.RAM,
-            nameof(NowPlayingWidget) => WidgetType.NowPlaying,
-            _ => throw new NotImplementedException($"Widget of type {GetType()} is not implemented.")
-        } };
-    }
-
+            {WidgetType.CPU, typeof(CPUWidget)},
+            {WidgetType.GPU, typeof(GPUWidget)},
+            {WidgetType.RAM, typeof(RAMWidget)},
+            {WidgetType.Disk, typeof(DiskWidget)},
+            {WidgetType.Network, typeof(NetworkWidget)},
+            {WidgetType.NowPlaying, typeof(NowPlayingWidget)},
+        });
     }
 }
