@@ -22,13 +22,46 @@
         private readonly BindableProperty<CornerRadius> widgetRadius = new(new());
         private event Action<CornerRadius> WidgetRadiusChanged;
 
-        /// <summary>Gets or sets a <see cref="IList{T}"/> of <see cref="CoreWidget"/> used to generate the content of the ItemsControl.</summary>
-        /// <returns>The <see cref="IList{T}"/> of <see cref="CoreWidget"/> that is used to generate the content of the ItemsControl. The default is <see langword="null"/>.</returns>
-        public new IList<CoreWidget> ItemsSource
+        /// <summary>Gets or sets a <see cref="IEnumerable{T}"/> of <see cref="Board"/> used to generate the content of the ItemsControl.</summary>
+        /// <returns>The <see cref="IEnumerable{T}"/> of <see cref="Board"/> that is used to generate the content of the ItemsControl. The default is <see langword="null"/>.</returns>
+        public new IEnumerable<Board> ItemsSource
         {
-            get => base.ItemsSource as IList<CoreWidget>;
-            set => base.ItemsSource = value;
+            get => boards;
+            set
+            {
+                boards = value;
+                var board = CurrentBoard = value.First();
+                var widgets = GetCoreWidgets(board);
+                base.ItemsSource = widgets;
+                cachedWidgets.Add(0, widgets);
+            }
         }
+        private IEnumerable<Board> boards;
+        /// <summary>Invoked when the data within <see cref="ItemsSource"/> has been changed.</summary>
+        public event TypedEventHandler<WidgetsPanel, ItemsSourceUpdatedEventArgs> ItemsSourceUpdated;
+
+        /// <summary>Gets the current <see cref="Board"/> displayed. This can be changed using the <see cref="BoardIndex"/> property.</summary>
+        public Board CurrentBoard { get; private set; }
+        /// <summary>Gets or sets the displayed <see cref="Board"/> using its index in <see cref="ItemsSource"/>.</summary>
+        public int BoardIndex
+        {
+            get => index;
+            set
+            {
+                index = value;
+                CurrentBoard = boards.ElementAt(value);
+                if (cachedWidgets.TryGetValue(value, out var coll))
+                    base.ItemsSource = coll;
+                else
+                {
+                    coll = GetCoreWidgets(CurrentBoard);
+                    base.ItemsSource = coll;
+                    cachedWidgets.Add(value, coll);
+                }
+            }
+        }
+        private int index = 0;
+        private readonly Dictionary<int, ObservableCollection<CoreWidget>> cachedWidgets = [];
 
         /// <summary>Invoked when a <see cref="CoreWidget"/> initiates a drag operation.</summary>
         public new event Action<CoreWidget> DragItemsStarting;
@@ -67,9 +100,14 @@
             {
                 if (draggedWidget is null)
                     return;
-                var index = ItemsSource.IndexOf((s as GridViewItem).Content as CoreWidget);
-                ItemsSource.Remove(draggedWidget);
-                ItemsSource.Insert(index, draggedWidget);
+
+                var coll = base.ItemsSource as ObservableCollection<CoreWidget>;
+                var index = coll.IndexOf((s as GridViewItem).Content as CoreWidget);
+                coll.Remove(draggedWidget);
+                coll.Insert(index, draggedWidget);
+
+                CurrentBoard.Widgets = GetProperties(coll);
+                ItemsSourceUpdated?.Invoke(this, new(boards, CurrentBoard));
 
                 draggedWidget = null;
                 DragItemsCompleted?.Invoke(widget);
@@ -85,5 +123,25 @@
             VariableSizedWrapGrid.SetColumnSpan(container, size == WidgetSize.Small ? 1 : 2);
             VariableSizedWrapGrid.SetRowSpan(container, size == WidgetSize.Large ? 2 : 1);
         }
+
+        private static ObservableCollection<CoreWidget> GetCoreWidgets(Board board) => new(board.Widgets.Select(i => (CoreWidget)Activator.CreateInstance(CoreWidget.WidgetTypes[i.Type])));
+        private static WidgetProperties[] GetProperties(ObservableCollection<CoreWidget> widgets) => widgets.Select(i => new WidgetProperties()
+        {
+            Type = CoreWidget.WidgetTypes.First(x => x.Value == i.GetType()).Key,
+            Size = i.Size,
+            Index = i.Index
+        }).ToArray();
+    }
+
+    /// <summary>Event args for the <see cref="WidgetsPanel.ItemsSourceUpdated"/> event.</summary>
+    /// <param name="source">The current source of the <see cref="WidgetsPanel"/>.</param>
+    /// <param name="board">The <see cref="Board"/> that was updated.</param>
+    public class ItemsSourceUpdatedEventArgs(IEnumerable<Board> source, Board board) : EventArgs
+    {
+        /// <summary>The current source of the <see cref="WidgetsPanel"/>.</summary>
+        public IEnumerable<Board> ItemsSource { get; } = source;
+
+        /// <summary>The <see cref="Board"/> that was updated.</summary>
+        public Board ChangedBoard { get; } = board;
     }
 }
