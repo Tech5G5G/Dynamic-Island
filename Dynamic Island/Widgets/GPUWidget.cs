@@ -3,7 +3,6 @@
     public sealed partial class GPUWidget : ResourceWidget
     {
         private static readonly int[] gpus = Enumerable.Range(1, GPUHelper.GPUCount).ToArray();
-        int gpu = 1;
 
         float usage = 0;
         public GPUWidget()
@@ -15,11 +14,11 @@
             ButtonClicked += (s, e) =>
             {
                 ClearGraph();
-                gpu = gpu == gpus.Length ? 1 : gpus[gpu];
+                Index = Index == gpus.Length ? 1 : gpus[Index];
             };
         }
 
-        protected override async Task<double> DataRequested(ResourceGraph graph) => usage = await GPUHelper.GetGPUUsage(gpu);
+        protected override async Task<double> DataRequested(ResourceGraph graph) => usage = await GPUHelper.GetGPUUsage(Index);
         protected override string PrimaryTextRequested(TextBlock textBlock) => $"{(int)usage}%";
         protected override string SecondaryTextRequested(TextBlock textBlock) => string.Empty;
     }

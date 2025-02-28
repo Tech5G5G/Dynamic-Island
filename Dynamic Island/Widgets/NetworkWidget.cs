@@ -3,7 +3,6 @@
     public sealed partial class NetworkWidget : DualResourceWidget
     {
         private static readonly int[] networks = Enumerable.Range(1, NetworkHelper.NetworkCount).ToArray();
-        int network = 1;
 
         float receive = 0;
         float send = 0;
@@ -16,13 +15,13 @@
             ButtonClicked += (s, e) =>
             {
                 ClearGraph();
-                network = network == networks.Length ? 1 : networks[network];
+                Index = Index == networks.Length ? 1 : networks[Index];
             };
         }
 
-        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => (double)(receive = NetworkHelper.GetNetworkReceive(network)));
-        protected override double Data2Requested(ResourceGraph graph) => send = NetworkHelper.GetNetworkSend(network);
-        protected override string PrimaryTextRequested(TextBlock textBlock) => ((receive + send) / NetworkHelper.GetNetworkBandwidth(network)).ToString("P0");
+        protected override Task<double> DataRequested(ResourceGraph graph) => Task.Run(() => (double)(receive = NetworkHelper.GetNetworkReceive(Index)));
+        protected override double Data2Requested(ResourceGraph graph) => send = NetworkHelper.GetNetworkSend(Index);
+        protected override string PrimaryTextRequested(TextBlock textBlock) => ((receive + send) / NetworkHelper.GetNetworkBandwidth(Index)).ToString("P0");
         protected override string SecondaryTextRequested(TextBlock textBlock) => string.Empty;
     }
 }

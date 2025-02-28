@@ -18,7 +18,10 @@
         }
         private WidgetSize size = WidgetSize.Small;
 
-        /// <summary>Invoked after the size of the widget was changed.</summary>
+        /// <summary>The index of the widget.</summary>
+        public int Index { get; set; } = 1;
+
+        /// <summary>Invoked after the size of the widget is changed.</summary>
         public event Action<WidgetSize> WidgetSizeChanged;
 
         /// <summary>Creates a new <see cref="WidgetProperties"/> depending on the type of <see cref="CoreWidget"/>.</summary>
