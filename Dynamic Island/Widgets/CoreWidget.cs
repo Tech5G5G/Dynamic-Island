@@ -37,43 +37,5 @@
         } };
     }
 
-    /// <summary>Properties of a widget.</summary>
-    public class WidgetProperties
-    {
-        /// <summary>The type of widget.</summary>
-        //Insert JSON property name here
-        public WidgetType Type { get; set; }
-        /// <summary>The size of the widget; that is, small, wide or large.</summary>
-        //Insert JSON property name here
-        public WidgetSize Size { get; set; }
-
-        /// <summary>Creates a new <see cref="CoreWidget"/> depending on <see cref="Type"/>.</summary>
-        /// <returns>A new instance of a derived class of <see cref="CoreWidget"/>.</returns>
-        /// <exception cref="NotImplementedException"/>
-        public CoreWidget ToCoreWidget() => Type switch
-        {
-            WidgetType.CPU => new CPUWidget() { Size = Size },
-            WidgetType.GPU => new GPUWidget() { Size = Size },
-            WidgetType.RAM => new RAMWidget() { Size = Size },
-            WidgetType.NowPlaying => new NowPlayingWidget() { Size = Size },
-            _ => throw new NotImplementedException($"Widget of type {Type} is not implemented.")
-        };
-    }
-
-    /// <summary>Sizes of a widget.</summary>
-    public enum WidgetSize
-    {
-        Small,
-        Wide,
-        Large
-    }
-
-    /// <summary>Types of a widget.</summary>
-    public enum WidgetType
-    {
-        CPU,
-        GPU,
-        RAM,
-        NowPlaying
     }
 }
