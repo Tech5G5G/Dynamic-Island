@@ -77,7 +77,7 @@
                     <SelectorBarItem Text="PinButton" />
                     <SelectorBarItem Text="Settings" />
                 </SelectorBar>
-                <wid:WidgetsPanel x:Name="widgetsPanel" CanReorderItems="True" WidgetRadius="{x:Bind UIRadius.Value, Mode=OneWay}" ItemsSource="{x:Bind Widgets}" Grid.Row="1" />
+                <wid:WidgetsPanel x:Name="widgetsPanel" CanReorderItems="True" WidgetRadius="{x:Bind UIRadius.Value, Mode=OneWay}" Grid.Row="1" />
                 <ItemsView x:Name="trayContents" SelectionMode="None" Padding="4,0" ItemsSource="{x:Bind tray}" Grid.Row="2">
                     <ItemsView.Layout>
                         <LinedFlowLayout ItemsStretch="Fill" MinItemSpacing="4" />

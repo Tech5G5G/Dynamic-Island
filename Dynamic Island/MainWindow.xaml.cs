@@ -64,16 +64,13 @@ namespace Dynamic_Island
             ApplySettings();
             AddDropHandlers();
             TrackVolume();
+
+            widgetsPanel.ItemsSource = Board.Current;
+            widgetsPanel.ItemsSourceUpdated += (s, e) =>
+            {
+                //TODO: Save the board
+            };
         }
-        public ObservableCollection<CoreWidget> Widgets =
-        [
-            new RAMWidget(),
-            new NowPlayingWidget(),
-            new CPUWidget(),
-            new GPUWidget(),
-            new NetworkWidget(),
-            new DiskWidget()
-        ];
 
         private void ApplySettings()
         {
