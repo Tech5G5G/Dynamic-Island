@@ -322,6 +322,29 @@ namespace Dynamic_Island
             else
                 PInvoke.SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(App.SettingsWindow));
         }
+        private void AddWidget(object sender, RoutedEventArgs e)
+        {
+            if (App.AddWidgetWindow is not null)
+            {
+                PInvoke.SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(App.AddWidgetWindow));
+                return;
+            }
+
+            pointerInMenu = true;
+            var window = App.AddWidgetWindow = new();
+            window.Activate();
+            window.DragWidget += (s) => movingWidget = true;
+            window.WidgetPicked += (type, size) =>
+            {
+                var board = widgetsPanel.CurrentBoard;
+                board.Widgets = [.. board.Widgets, new() { Type = type, Size = size, Index = 1 }];
+                Board.UpdateBoard(widgetsPanel.BoardIndex, board);
+                widgetsPanel.ItemsSource = Board.Current;
+
+                pointerInMenu = false;
+                Pill_Toggle(false);
+            };
+        }
 
         private void Pill_Toggle(bool open, Action addAction = null, bool addCheck = false, bool force = false, bool toggleView = true)
         {
