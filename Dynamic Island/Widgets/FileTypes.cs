@@ -20,7 +20,7 @@ public class WidgetProperties
     public int Index { get; set; }
 }
 
-/// <summary>Contains data about different widget boards and their widgets.</summary>
+/// <summary>Contains data about widget boards and their widgets.</summary>
 public class Board
 {
     /// <summary>The file path to the icon of the board.</summary>

@@ -27,11 +27,11 @@ namespace Dynamic_Island.Widgets
 
         /// <summary>Fired every second to add a point to the primary line on the <see cref="ResourceGraph"/>.</summary>
         /// <param name="graph">The <see cref="ResourceGraph"/> to add the point to.</param>
-        /// <returns>A <see cref="double"/> representing the Y coordinate for the next point.</returns>
+        /// <returns>A <see cref="double"/> representing the Y coordinate for the next point, asynchronously.</returns>
         protected abstract Task<double> DataRequested(ResourceGraph graph);
         /// <summary>Fired every second to update the text in the primary <see cref="TextBlock"/>.</summary>
         /// <param name="textBlock">The <see cref="TextBlock"/> to update.</param>
-        /// <returns>The text to display in <paramref name="textBlock"/>, asynchronously.</returns>
+        /// <returns>The text to display in <paramref name="textBlock"/>.</returns>
         protected abstract string PrimaryTextRequested(TextBlock textBlock);
         /// <summary>Fired every second to update the text in the secondary <see cref="TextBlock"/>.</summary>
         /// <param name="textBlock">The <see cref="TextBlock"/> to update.</param>

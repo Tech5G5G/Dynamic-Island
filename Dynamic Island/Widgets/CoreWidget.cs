@@ -24,7 +24,7 @@
         /// <summary>Invoked after the size of the widget is changed.</summary>
         public event Action<WidgetSize> WidgetSizeChanged;
 
-        /// <summary>Gets a <see cref="ReadOnlyDictionary{TKey, TValue}"/> of <see cref="Widgets.WidgetType"/>s and their respective <see cref="CoreWidget"/>.</summary>
+        /// <summary>Gets a <see cref="ReadOnlyDictionary{TKey, TValue}"/> of <see cref="WidgetType"/>s and their respective <see cref="CoreWidget"/>.</summary>
         public static ReadOnlyDictionary<WidgetType, Type> WidgetTypes { get; } = new(new Dictionary<WidgetType, Type>()
         {
             {WidgetType.CPU, typeof(CPUWidget)},
