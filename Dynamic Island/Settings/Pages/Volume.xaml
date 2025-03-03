@@ -16,11 +16,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid>
-                <FontIcon Glyph="&#xE994;" />
-                <FontIcon Glyph="&#xE767;" Foreground="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+                <FontIcon Glyph="&#xE767;" Foreground="#3FFFFFFF" />
+                <FontIcon Glyph="&#xE994;" Foreground="White" />
             </Grid>
-            <ProgressBar Value="50" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="1" />
-            <TextBlock x:Name="volumeLabel" Text="50" FontSize="15" VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="2" />
+            <ProgressBar Value="50" Foreground="White" Background="#8BFFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="1" />
+            <TextBlock x:Name="volumeLabel" Text="50" FontSize="15" Foreground="White"  VerticalAlignment="Center" Margin="12,0,0,0" Grid.Column="2" />
             <Rectangle x:Name="smoke" Height="45" Fill="{ThemeResource SmokeFillColorDefault}" Grid.ColumnSpan="3" />
         </Grid>
         <ComboBox x:Name="volumeMode" HorizontalAlignment="Center" PlaceholderText="Mode" SelectionChanged="VolumeMode_SelectionChanged">
