@@ -41,7 +41,7 @@ public class Board
     static Board() => GetCurrent();
     private static async void GetCurrent()
     {
-        if (localFolder.TryGetItemAsync(BoardsFileName) is IStorageFile file)
+        if (await localFolder.TryGetItemAsync(BoardsFileName) is IStorageFile file)
             Current = JsonSerializer.Deserialize<Board[]>(await FileIO.ReadTextAsync(file));
         else
         {
@@ -50,17 +50,21 @@ public class Board
             file = await localFolder.CreateFileAsync(BoardsFileName, CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(boards));
         }
+        CurrentLoaded?.Invoke(Current);
     }
 
-    /// <summary>Gets the current array of <see cref="Board"/>s that are saved.</summary>
+    /// <summary>Gets the current array of <see cref="Board"/> that are saved.</summary>
     public static Board[] Current { get; private set; }
 
-    /// <summary>Updates the saved <see cref="Board"/>s at index <paramref name="board"/> with <paramref name="newValue"/>.</summary>
-    /// <param name="board">The index of the <see cref="Board"/> to update.</param>
+    /// <summary>Invoked when the value for <see cref="Current"/> has been set.</summary>
+    public static event Action<Board[]> CurrentLoaded;
+
+    /// <summary>Updates the saved <see cref="Board"/> at <paramref name="index"/> with <paramref name="newValue"/>.</summary>
+    /// <param name="index">The index of the <see cref="Board"/> to update.</param>
     /// <param name="newValue">The new value for the <see cref="Board"/>.</param>
-    public async static void UpdateBoard(int board, Board newValue)
+    public async static void UpdateBoard(int index, Board newValue)
     {
-        Current[board] = newValue;
+        Current[index] = newValue;
         var file = await localFolder.CreateFileAsync(BoardsFileName, CreationCollisionOption.ReplaceExisting);
         await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(Current));
     }
