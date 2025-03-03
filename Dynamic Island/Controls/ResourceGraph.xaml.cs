@@ -53,19 +53,14 @@ namespace Dynamic_Island.Controls
 
         /// <summary>Adds a line to the graph.</summary>
         /// <param name="dashed">Whether the line should be dashed.</param>
-        /// <returns>The index of the line in <see cref="Lines"/>.</returns>
-        public int AddLine(bool dashed)
+        public void AddLine(bool dashed) => Series.Value.Add(new LineSeries<ObservablePoint>()
         {
-            Series.Value.Add(new LineSeries<ObservablePoint>()
-            {
-                Values = new ObservableCollection<ObservablePoint>(),
-                GeometryStroke = null,
-                GeometryFill = null,
-                Stroke = new SolidColorPaint(color, LineThickness) { PathEffect = dashed ? DashEffect : null },
-                Fill = new SolidColorPaint(new(color.Red, color.Green, color.Blue, 0x32))
-            });
-            return Series.Value.Count - 1;
-        }
+            Values = new ObservableCollection<ObservablePoint>(),
+            GeometryStroke = null,
+            GeometryFill = null,
+            Stroke = new SolidColorPaint(color, LineThickness) { PathEffect = dashed ? DashEffect : null },
+            Fill = new SolidColorPaint(new(color.Red, color.Green, color.Blue, 0x32))
+        });
 
         /// <summary>Adds a point to the graph. If the line is 0, also updates the bounds of the X axis.</summary>
         /// <param name="line">The line to add the point to.</param>
