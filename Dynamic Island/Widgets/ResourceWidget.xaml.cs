@@ -17,12 +17,16 @@ namespace Dynamic_Island.Widgets
                 graph.AddLine(dashed);
 
             button.Click += (s, e) => ButtonClicked?.Invoke(s, e);
-            Tick += async () =>
-            {
-                await UpdateGraph(graph, seconds++);
-                primaryText.Text = PrimaryTextRequested(primaryText);
-                secondaryText.Text = SecondaryTextRequested(secondaryText);
-            };
+            
+            Loaded += (s, e) => Tick += UpdateData;
+            Unloaded += (s, e) => Tick -= UpdateData;
+        }
+
+        private async void UpdateData()
+        {
+            await UpdateGraph(graph, seconds++);
+            primaryText.Text = PrimaryTextRequested(primaryText);
+            secondaryText.Text = SecondaryTextRequested(secondaryText);
         }
 
         /// <summary>Fired every second to add a point to the primary line on the <see cref="ResourceGraph"/>.</summary>
