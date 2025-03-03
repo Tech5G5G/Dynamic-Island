@@ -3,6 +3,16 @@
 /// <summary>Contains extension methods for various types.</summary>
 public static class OtherExtensions
 {
+    /// <summary>Assigns the <see cref="ButtonBase.Click"/> in the fluent style.</summary>
+    /// <param name="item">The <see cref="ButtonBase"/> to assign the click handler to.</param>
+    /// <param name="handler">The handler for the <see cref="ButtonBase.Click"/> event.</param>
+    /// <returns><paramref name="item"/> with the <see cref="ButtonBase.Click"/> assigned to <paramref name="handler"/>.</returns>
+    public static ButtonBase AddClick(this ButtonBase item, RoutedEventHandler handler)
+    {
+        item.Click += handler;
+        return item;
+    }
+
     /// <summary>Assigns the <see cref="MenuFlyoutItem.Click"/> in the fluent style.</summary>
     /// <param name="item">The <see cref="MenuFlyoutItem"/> to assign the click handler to.</param>
     /// <param name="handler">The handler for the <see cref="MenuFlyoutItem.Click"/> event.</param>
