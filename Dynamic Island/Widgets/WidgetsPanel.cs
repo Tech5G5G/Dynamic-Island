@@ -25,9 +25,10 @@
             set
             {
                 boards = value;
-                var board = CurrentBoard = value.First();
+                var board = CurrentBoard = value.FirstOrDefault(new Board { Widgets = [] });
                 var widgets = GetCoreWidgets(board);
                 base.ItemsSource = widgets;
+                cachedWidgets.Clear();
                 cachedWidgets.Add(0, widgets);
             }
         }
@@ -49,8 +50,7 @@
                     base.ItemsSource = coll;
                 else
                 {
-                    coll = GetCoreWidgets(CurrentBoard);
-                    base.ItemsSource = coll;
+                    base.ItemsSource = coll = GetCoreWidgets(CurrentBoard);
                     cachedWidgets.Add(value, coll);
                 }
             }
