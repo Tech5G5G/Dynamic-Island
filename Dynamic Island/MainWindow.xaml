@@ -62,6 +62,15 @@
         </Grid>
         <ScrollViewer x:Name="mainView" VerticalScrollBarVisibility="Hidden" Visibility="Collapsed">
             <Grid>
+                <Grid.Resources>
+                    <Style x:Key="TransparentButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Height" Value="30" />
+                        <Setter Property="Width" Value="30" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
