@@ -33,7 +33,7 @@
         }
         private IEnumerable<Board> boards;
         /// <summary>Invoked when the data within <see cref="ItemsSource"/> has been changed.</summary>
-        public event TypedEventHandler<WidgetsPanel, ItemsSourceUpdatedEventArgs> ItemsSourceUpdated;
+        public event TypedEventHandler<IEnumerable<Board>, Board> ItemsSourceUpdated;
 
         /// <summary>Gets the current <see cref="Board"/> displayed. This can be changed using the <see cref="BoardIndex"/> property.</summary>
         public Board CurrentBoard { get; private set; }
@@ -128,17 +128,5 @@
             Size = i.Size,
             Index = i.Index
         }).ToArray();
-    }
-
-    /// <summary>Event args for the <see cref="WidgetsPanel.ItemsSourceUpdated"/> event.</summary>
-    /// <param name="source">The current source of the <see cref="WidgetsPanel"/>.</param>
-    /// <param name="board">The <see cref="Board"/> that was updated.</param>
-    public class ItemsSourceUpdatedEventArgs(IEnumerable<Board> source, Board board) : EventArgs
-    {
-        /// <summary>The current source of the <see cref="WidgetsPanel"/>.</summary>
-        public IEnumerable<Board> ItemsSource { get; } = source;
-
-        /// <summary>The <see cref="Board"/> that was updated.</summary>
-        public Board ChangedBoard { get; } = board;
     }
 }
