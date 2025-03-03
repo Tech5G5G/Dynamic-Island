@@ -152,6 +152,7 @@ namespace Dynamic_Island
         }
 
         object currentShare;
+        bool movingWidget = false;
         ObservableCollection<DataContainer> tray = [];
         private void InvokeShareDialog(object shareItem)
         {
@@ -163,8 +164,8 @@ namespace Dynamic_Island
         private void AddDropHandlers()
         {
             pill.AllowDrop = trayOption.AllowDrop = shareOption.AllowDrop = true;
-            pill.DragEnter += (s, e) => Pill_Toggle(true, () => dragOptions.Visibility = Visibility.Visible, addCheck: widgetsPanel.DraggingItem, toggleView: false);
-            pill.DragLeave += (s, e) => Pill_Toggle(false, () => dragOptions.Visibility = Visibility.Collapsed, addCheck: widgetsPanel.DraggingItem);
+            pill.DragEnter += (s, e) => Pill_Toggle(true, () => dragOptions.Visibility = Visibility.Visible, addCheck: movingWidget, toggleView: false);
+            pill.DragLeave += (s, e) => Pill_Toggle(false, () => dragOptions.Visibility = Visibility.Collapsed, addCheck: movingWidget);
             DataTransferManagerInterop.GetForWindow(Handle).DataRequested += async (s, e) =>
             {
                 var request = e.Request;
@@ -352,7 +353,7 @@ namespace Dynamic_Island
             Pill_Toggle(false, addCheck: WindowHelper.CursorInWindow(this));
         }
 
-        private void Pill_PointerExited(object sender, PointerRoutedEventArgs e) => Pill_Toggle(false, addCheck: pointerInMenu || widgetsPanel.DraggingItem);
+        private void Pill_PointerExited(object sender, PointerRoutedEventArgs e) => Pill_Toggle(false, addCheck: pointerInMenu || movingWidget);
         private void Pill_PointerEntered(object sender, PointerRoutedEventArgs e) => Pill_Toggle(true, () =>
         {
             if (elementToHide is not null)
