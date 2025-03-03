@@ -12,19 +12,6 @@
     Title="Settings" Width="525" Height="310">
 
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <SolidColorBrush x:Key="DarkIndianRed" Color="#FF8C3F3F" />
-                <ResourceDictionary.ThemeDictionaries>
-                    <ResourceDictionary x:Key="Default">
-                        <SolidColorBrush x:Key="DisabledCaption" Color="DimGray" />
-                    </ResourceDictionary>
-                    <ResourceDictionary x:Key="Light">
-                        <SolidColorBrush x:Key="DisabledCaption" Color="LightGray" />
-                    </ResourceDictionary>
-                </ResourceDictionary.ThemeDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
