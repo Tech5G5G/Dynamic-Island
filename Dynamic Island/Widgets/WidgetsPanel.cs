@@ -14,7 +14,7 @@
         {
             get => widgetRadius.Value;
             set => widgetRadius.Value = value;
-            }
+        }
         private readonly BindableProperty<CornerRadius> widgetRadius = new(new());
 
         /// <summary>Gets or sets a <see cref="IEnumerable{T}"/> of <see cref="Board"/> used to generate the content of the ItemsControl.</summary>
@@ -60,12 +60,16 @@
 
         /// <summary>Invoked when a <see cref="CoreWidget"/> initiates a drag operation.</summary>
         public new event Action<CoreWidget> DragItemsStarting;
-        /// <summary>Invoked when a <see cref="CoreWidget"/> receives a drop request, thus ending the drag operation.</summary>
-        public new event Action<CoreWidget> DragItemsCompleted;
 
+        /// <summary>Invoked when a <see cref="CoreWidget"/> receives a drop request, thus ending the drag operation.</summary>
+        public new event TypedEventHandler<WidgetsPanel, DragWidgetCompletedEventArgs> DragItemsCompleted;
+        public class DragWidgetCompletedEventArgs(CoreWidget widget)
         {
             /// <summary>The <see cref="CoreWidget"/> being dragged.</summary>
             public CoreWidget Widget { get; set; } = widget;
+            /// <summary>Set this to <see langword="true"/> when overriding <see cref="Widget"/>.</summary>
+            public bool OverridingWidget { get; set; } = false;
+        }
 
         /// <summary>Gets or sets a value that indicates whether the <see cref="CoreWidget"/>s within the view can be reordered through user interaction.</summary>
         /// <returns><see langword="true"/> if <see cref="CoreWidget"/>s in the view can be reordered through user interaction; otherwise, <see langword="false"/>. The default is <see langword="false"/>.</returns>
