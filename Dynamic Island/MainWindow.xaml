@@ -110,13 +110,5 @@
                 <FontIcon Glyph="&#xE72D;" FontSize="30" Margin="4" />
             </Button>
         </Grid>
-        <Grid.ContextFlyout>
-            <MenuFlyout Opening="Flyout_Opening" Closed="Flyout_Closed">
-                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE713;}" Text="Settings" Click="OpenSettings" />
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE7C2;}" Text="Move" Click="StartMoving" />
-                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE73F;}" Text="Center on screen" Click="CenterOnScreen" />
-            </MenuFlyout>
-        </Grid.ContextFlyout>
     </con:PillGrid>
 </Window>
