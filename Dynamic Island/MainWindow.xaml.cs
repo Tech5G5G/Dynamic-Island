@@ -163,6 +163,21 @@ namespace Dynamic_Island
         }
         private void AddDropHandlers()
         {
+            widgetsPanel.DragItemsStarting += (s) => movingWidget = true;
+            widgetsPanel.DragItemsCompleted += (s, e) =>
+            {
+                if (App.AddWidgetWindow is AddWidgetWindow window && window.DraggedWidget is CoreWidget widget)
+                {
+                    e.Widget = (CoreWidget)Activator.CreateInstance(widget.GetType());
+                    e.OverridingWidget = true;
+
+                    pointerInMenu = false;
+                    Pill_Toggle(false);
+                    App.AddWidgetWindow.Close();
+                }
+                movingWidget = false;
+            };
+
             pill.AllowDrop = trayOption.AllowDrop = shareOption.AllowDrop = true;
             pill.DragEnter += (s, e) => Pill_Toggle(true, () => dragOptions.Visibility = Visibility.Visible, addCheck: movingWidget, toggleView: false);
             pill.DragLeave += (s, e) => Pill_Toggle(false, () => dragOptions.Visibility = Visibility.Collapsed, addCheck: movingWidget);
