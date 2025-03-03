@@ -63,9 +63,9 @@
         /// <summary>Invoked when a <see cref="CoreWidget"/> receives a drop request, thus ending the drag operation.</summary>
         public new event Action<CoreWidget> DragItemsCompleted;
 
-        /// <summary>Gets a <see langword="bool"/> determining whether a <see cref="CoreWidget"/> from the view is currently being dragged.</summary>
-        /// <returns><see langword="true"/> if a <see cref="CoreWidget"/> is currently being dragged. Otherwise, <see langword="false"/>.</returns>
-        public bool DraggingItem => draggedWidget is not null;
+        {
+            /// <summary>The <see cref="CoreWidget"/> being dragged.</summary>
+            public CoreWidget Widget { get; set; } = widget;
 
         /// <summary>Gets or sets a value that indicates whether the <see cref="CoreWidget"/>s within the view can be reordered through user interaction.</summary>
         /// <returns><see langword="true"/> if <see cref="CoreWidget"/>s in the view can be reordered through user interaction; otherwise, <see langword="false"/>. The default is <see langword="false"/>.</returns>
