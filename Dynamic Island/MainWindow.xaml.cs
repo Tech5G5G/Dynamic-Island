@@ -61,15 +61,12 @@ namespace Dynamic_Island
                 }
             };
 
+            Board.CurrentLoaded += (s) => widgetsPanel.ItemsSource = s;
+            widgetsPanel.ItemsSourceUpdated += (s, e) => Board.UpdateBoard(s.ToList().IndexOf(e), e);
+
             ApplySettings();
             AddDropHandlers();
             TrackVolume();
-
-            widgetsPanel.ItemsSource = Board.Current;
-            widgetsPanel.ItemsSourceUpdated += (s, e) =>
-            {
-                //TODO: Save the board
-            };
         }
 
         private void ApplySettings()
