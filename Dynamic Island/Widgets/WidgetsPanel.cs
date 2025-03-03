@@ -93,19 +93,21 @@
             container.DragOver += (s, e) => e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
             container.Drop += (s, e) =>
             {
-                if (draggedWidget is null)
+                var args = new DragWidgetCompletedEventArgs(draggedWidget);
+                DragItemsCompleted?.Invoke(this, args);
+
+                if (args.Widget is not CoreWidget widget)
                     return;
 
                 var coll = base.ItemsSource as ObservableCollection<CoreWidget>;
                 var index = coll.IndexOf((s as GridViewItem).Content as CoreWidget);
-                coll.Remove(draggedWidget);
-                coll.Insert(index, draggedWidget);
-
-                CurrentBoard.Widgets = GetProperties(coll);
-                ItemsSourceUpdated?.Invoke(this, new(boards, CurrentBoard));
+                if (!args.OverridingWidget)
+                    coll.Remove(widget);
+                coll.Insert(index, widget);
 
                 draggedWidget = null;
-                DragItemsCompleted?.Invoke(widget);
+                CurrentBoard.Widgets = GetProperties(coll);
+                ItemsSourceUpdated?.Invoke(boards, CurrentBoard);
             };
 
             UpdateContainerSpans(container, size);
