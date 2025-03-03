@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:ThemeWindow
+    x:Class="Dynamic_Island.Widgets.AddWidgetWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dynamic_Island.Widgets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Dynamic_Island.Controls"
+    mc:Ignorable="d"
+    Title="Add Widget" Width="600" Height="500">
+
+    <Grid>
+        <NavigationView x:Name="navView"
+                        IsSettingsVisible="False"
+                        IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="False"
+                        PaneDisplayMode="Left"
+                        OpenPaneLength="200"
+                        SelectionChanged="SelectionChanged">
+            <Frame x:Name="widgetPreview" />
+            <NavigationView.Resources>
+                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+                <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+            </NavigationView.Resources>
+            <NavigationView.PaneHeader>
+                <Grid Height="26" />
+            </NavigationView.PaneHeader>
+        </NavigationView>
+        <Grid x:Name="titleBar" Width="200" Height="31" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Spacing="8">
+                <Ellipse Height="12" Width="12" Fill="IndianRed" PointerPressed="Close_PointerPressed" PointerReleased="Close_PointerReleased" PointerExited="Close_PointerExited" />
+                <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+                <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</controls:ThemeWindow>

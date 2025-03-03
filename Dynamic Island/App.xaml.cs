@@ -40,6 +40,7 @@
         }
 
         public static MainWindow MainWindow { get; set; }
+        public static AddWidgetWindow AddWidgetWindow { get; set; }
         public static SettingsWindow SettingsWindow { get; set; }
     }
 }
