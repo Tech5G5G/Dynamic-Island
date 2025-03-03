@@ -13,14 +13,9 @@
         public CornerRadius WidgetRadius
         {
             get => widgetRadius.Value;
-            set
-            {
-                widgetRadius.Value = value;
-                WidgetRadiusChanged?.Invoke(value);
+            set => widgetRadius.Value = value;
             }
-        }
         private readonly BindableProperty<CornerRadius> widgetRadius = new(new());
-        private event Action<CornerRadius> WidgetRadiusChanged;
 
         /// <summary>Gets or sets a <see cref="IEnumerable{T}"/> of <see cref="Board"/> used to generate the content of the ItemsControl.</summary>
         /// <returns>The <see cref="IEnumerable{T}"/> of <see cref="Board"/> that is used to generate the content of the ItemsControl. The default is <see langword="null"/>.</returns>
@@ -89,7 +84,7 @@
 
             BindingOperations.SetBinding(container, CanDragProperty, new Binding { Source = canReorderItems.Value, Mode = BindingMode.OneWay });
             widget.CornerRadius = WidgetRadius;
-            WidgetRadiusChanged += (radius) => widget.CornerRadius = radius;
+            widgetRadius.PropertyChanged += (s, e) => widget.CornerRadius = widgetRadius.Value;
             container.DragStarting += (s, e) =>
             {
                 draggedWidget = widget;
