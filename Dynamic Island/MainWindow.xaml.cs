@@ -326,6 +326,20 @@ namespace Dynamic_Island
                 if (e.DropResult != DataPackageOperation.None)
                     tray.Remove(container);
             };
+
+            MenuFlyout flyout = new()
+            {
+                Items =
+                {
+                    new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE72D" }, Text = "Share" }.AddClick(TrayItem_Share),
+                    new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE74D" }, Text = "Remove" }.AddClick(TrayItem_Remove)
+                }
+            };
+            if (addOpen)
+                flyout.Items.Insert(0, new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE8A7" }, Text = "Open" }.AddClick(TrayItem_Open));
+            flyout.Opening += Flyout_Opening;
+            flyout.Closed += Flyout_Closed;
+            viewBox.ContextFlyout = flyout;
         }
 
         private void CenterOnScreen(object sender, RoutedEventArgs e) => AppWindow.Move(new((DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea.Width - AppWindow.Size.Width) / 2, SettingValues.PillMode == PillMode.Notch ? -4 : 2));
