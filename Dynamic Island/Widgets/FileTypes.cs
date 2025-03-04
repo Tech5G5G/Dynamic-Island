@@ -25,7 +25,7 @@ public class Board
 {
     /// <summary>The file path to the icon of the board.</summary>
     [JsonPropertyName("icon")]
-    public string Icon { get; set; }
+    public Symbol Icon { get; set; }
 
     /// <summary>The name of the board.</summary>
     [JsonPropertyName("name")]
@@ -45,10 +45,9 @@ public class Board
             Current = JsonSerializer.Deserialize<Board[]>(await FileIO.ReadTextAsync(file));
         else
         {
-            Board[] boards = [new() { Icon = string.Empty, Name = string.Empty, Widgets = [new() { Size = WidgetSize.Wide, Type = WidgetType.NowPlaying }] }];
+            Board[] boards = [new() { Icon = Symbol.Home, Name = "Home", Widgets = [new() { Size = WidgetSize.Wide, Type = WidgetType.NowPlaying }] }];
             Current = boards;
-            file = await localFolder.CreateFileAsync(BoardsFileName, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(boards));
+            Save();
         }
         CurrentLoaded?.Invoke(Current);
     }
