@@ -1,4 +1,4 @@
-namespace Dynamic_Island.Widgets
+namespace Dynamic_Island.Widgets.Windows
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.

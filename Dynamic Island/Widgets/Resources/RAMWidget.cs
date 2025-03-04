@@ -1,4 +1,4 @@
-﻿namespace Dynamic_Island.Widgets
+﻿namespace Dynamic_Island.Widgets.Resources
 {
     public sealed partial class RAMWidget : ResourceWidget
     {

@@ -101,7 +101,7 @@
                 draggedWidget = widget;
                 DragItemsStarting?.Invoke(widget);
             };
-            container.DragOver += (s, e) => e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+            container.DragOver += (s, e) => e.AcceptedOperation = global::Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
             container.Drop += (s, e) =>
             {
                 var args = new DragWidgetCompletedEventArgs(draggedWidget);

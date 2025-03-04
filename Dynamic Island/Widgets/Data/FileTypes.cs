@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Windows.Storage;
 
-namespace Dynamic_Island.Widgets;
+namespace Dynamic_Island.Widgets.Data;
 
 /// <summary>Properties of a widget.</summary>
 public class WidgetProperties

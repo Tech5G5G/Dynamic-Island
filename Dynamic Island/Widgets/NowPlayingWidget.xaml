@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<local:CoreWidget
+<pri:CoreWidget
     x:Class="Dynamic_Island.Widgets.NowPlayingWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,9 +7,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:pri="using:Dynamic_Island.Widgets.Primitives"
     mc:Ignorable="d"
     Background="{ThemeResource CardBackgroundFillColorDefault}" CornerRadius="8">
-    <local:CoreWidget.RowDefinitions>
+    <pri:CoreWidget.RowDefinitions>
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
@@ -17,12 +18,12 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
-    </local:CoreWidget.RowDefinitions>
-    <local:CoreWidget.ColumnDefinitions>
+    </pri:CoreWidget.RowDefinitions>
+    <pri:CoreWidget.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="8" />
-    </local:CoreWidget.ColumnDefinitions>
+    </pri:CoreWidget.ColumnDefinitions>
     <Grid Height="134" MaxWidth="134" Margin="8" Grid.RowSpan="7">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="{x:Bind CornerRadius, Mode=OneWay}">
             <Image x:Name="mediaThumbnail" Source="ms-appx:///Assets/DefaultMedia.png" />
@@ -37,4 +38,4 @@
         <Button x:Name="next" Content="{ui:FontIcon Glyph=&#xE893;}" IsEnabled="False" Style="{ThemeResource PlaybackButtonStyle}" Click="Next" />
     </StackPanel>
     <ProgressBar x:Name="mediaProgress" Value="0" Foreground="White" Grid.Column="1" Grid.Row="5" />
-</local:CoreWidget>
+</pri:CoreWidget>

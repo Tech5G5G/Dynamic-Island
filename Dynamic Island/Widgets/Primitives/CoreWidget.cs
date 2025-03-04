@@ -1,4 +1,4 @@
-﻿namespace Dynamic_Island.Widgets
+﻿namespace Dynamic_Island.Widgets.Primitives
 {
     public abstract partial class CoreWidget : Grid
     {
