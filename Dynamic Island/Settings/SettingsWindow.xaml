@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <Grid x:Name="titleBarArea" Grid.RowSpan="2" Background="{ThemeResource LayerOnAcrylicFillColorDefault}" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Spacing="8">
-            <Ellipse Height="12" Width="12" Fill="IndianRed" PointerPressed="Close_PointerPressed" PointerReleased="Close_PointerReleased" PointerExited="Close_PointerExited" />
+            <Ellipse x:Name="close" Height="12" Width="12" Fill="IndianRed" />
             <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
             <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
         </StackPanel>
