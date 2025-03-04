@@ -84,7 +84,13 @@
                 </SelectorBar>
                 <StackPanel Orientation="Horizontal" Spacing="4" Padding="4" HorizontalAlignment="Right">
                     <Button Content="{ui:FontIcon Glyph=&#xE710;}" Style="{ThemeResource TransparentButtonStyle}" Padding="1,1,0,0" CornerRadius="{x:Bind UIRadius.Value, Mode=OneWay}">
-                    <Button Content="{ui:FontIcon Glyph=&#xE759;}" Style="{ThemeResource TransparentButtonStyle}">
+                        <Button.Flyout>
+                            <MenuFlyout Opening="Flyout_Opening" Closed="Flyout_Closed">
+                                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE737;}" Text="Widget" Click="AddWidget" />
+                                <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE727;}" Text="Board" Click="AddBoard" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                     <Button Content="{ui:FontIcon Glyph=&#xE759;}" Style="{ThemeResource TransparentButtonStyle}" CornerRadius="{x:Bind UIRadius.Value, Mode=OneWay}">
                         <Button.Flyout>
                             <MenuFlyout Opening="Flyout_Opening" Closed="Flyout_Closed">
