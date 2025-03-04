@@ -1,5 +1,3 @@
-using WinUIEx;
-
 namespace Dynamic_Island.Widgets
 {
     /// <summary>
@@ -27,6 +25,7 @@ namespace Dynamic_Island.Widgets
             this.InitializeComponent();
             this.CenterOnScreen();
             SetTitleBar(titleBar);
+            SetCloseButton(close);
 
             navView.MenuItemsSource = Items;
             navView.SelectedItem = Items[0];
@@ -40,13 +39,6 @@ namespace Dynamic_Island.Widgets
             Rect minRect = new(50 * scale, 11 * scale, 12 * scale, 12 * scale);
 
             return [closeRect.ToRectInt32(), maxRect.ToRectInt32(), minRect.ToRectInt32()];
-        }
-        private void Close_PointerPressed(object sender, PointerRoutedEventArgs e) => (sender as Microsoft.UI.Xaml.Shapes.Ellipse).Fill = Brushes.DarkIndianRed;
-        private void Close_PointerExited(object sender, PointerRoutedEventArgs e) => (sender as Microsoft.UI.Xaml.Shapes.Ellipse).Fill = Brushes.IndianRed;
-        private void Close_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as Microsoft.UI.Xaml.Shapes.Ellipse).Fill = Brushes.IndianRed;
-            Close();
         }
 
         /// <summary>Invoked when the user has picked a widget to add.</summary>
