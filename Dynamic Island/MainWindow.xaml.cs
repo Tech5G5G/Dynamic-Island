@@ -379,7 +379,7 @@ namespace Dynamic_Island
         {
             if ((!windowMoving && !addCheck) || force)
             {
-                AnimationBuilder.Create().Size(open ? new(620, 201) : new((float)SettingValues.PillWidth, (float)SettingValues.PillHeight),
+                AnimationBuilder.Create().Size(open ? new(620, 192) : new((float)SettingValues.PillWidth, (float)SettingValues.PillHeight),
                     duration: TimeSpan.FromMilliseconds(open ? SettingValues.OpenDuration : SettingValues.CloseDuration),
                     easingMode: open ? SettingValues.OpenMode : SettingValues.CloseMode,
                     easingType: open ? SettingValues.OpenType : SettingValues.CloseType,
