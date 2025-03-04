@@ -61,7 +61,6 @@ namespace Dynamic_Island
                 }
             };
 
-            Board.CurrentLoaded += (s) => widgetsPanel.ItemsSource = s;
             widgetsPanel.ItemsSourceUpdated += (s, e) => Board.UpdateBoard(s.ToList().IndexOf(e), e);
             Board.CurrentLoaded += (s) =>
             {
@@ -314,11 +313,6 @@ namespace Dynamic_Island
             }
 
             viewBox.Child = visual;
-            viewBox.ContextFlyout = MenuFlyoutFactory.Create(Flyout_Opening, Flyout_Closed, addOpen,
-                new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE8A7" }, Text = "Open" }.AddClick(TrayItem_Open),
-                new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE72D" }, Text = "Share" }.AddClick(TrayItem_Share),
-                new MenuFlyoutItem { Icon = new FontIcon { Glyph = "\uE74D" }, Text = "Remove" }.AddClick(TrayItem_Remove));
-
             viewBox.CanDrag = true;
             viewBox.DragStarting += (s, e) =>
             {
@@ -399,9 +393,6 @@ namespace Dynamic_Island
                 board.Widgets = [.. board.Widgets, new() { Type = type, Size = size, Index = 1 }];
                 Board.UpdateBoard(widgetsPanel.BoardIndex, board);
                 widgetsPanel.ItemsSource = Board.Current;
-
-                pointerInMenu = false;
-                Pill_Toggle(false);
             };
         }
 
@@ -433,9 +424,9 @@ namespace Dynamic_Island
         {
             if (App.AddWidgetWindow is null)
             {
-            pointerInMenu = false;
-            Pill_Toggle(false, addCheck: WindowHelper.CursorInWindow(this));
-        }
+                pointerInMenu = false;
+                Pill_Toggle(false, addCheck: WindowHelper.CursorInWindow(this));
+            }
         }
 
         private void Pill_PointerExited(object sender, PointerRoutedEventArgs e) => Pill_Toggle(false, addCheck: pointerInMenu || movingWidget);
