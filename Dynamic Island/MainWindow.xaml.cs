@@ -351,6 +351,23 @@ namespace Dynamic_Island
             else
                 PInvoke.SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(App.SettingsWindow));
         }
+        private void AddBoard(object sender, RoutedEventArgs e)
+        {
+            if (App.AddBoardWindow is not null)
+            {
+                PInvoke.SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(App.AddBoardWindow));
+                return;
+            }
+
+            var window = App.AddBoardWindow = new();
+            window.BoardCreated += (e) =>
+            {
+                Board.AddBoard(e);
+                widgetsPanel.ItemsSource = Board.Current;
+                boardsSelector.Items.Insert(boardsSelector.Items.Count - 1, new() { Icon = new SymbolIcon(e.Icon), Text = e.Name, Padding = new(4), Margin = new(4, 0, 0, 0) });
+            };
+            window.Activate();
+        }
         private void AddWidget(object sender, RoutedEventArgs e)
         {
             if (App.AddWidgetWindow is not null)
