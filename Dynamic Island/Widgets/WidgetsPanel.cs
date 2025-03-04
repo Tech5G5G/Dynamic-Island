@@ -30,8 +30,14 @@
                 base.ItemsSource = widgets;
                 cachedWidgets.Clear();
                 cachedWidgets.Add(0, widgets);
-                BoardIndex = index;
             }
+        }
+        /// <summary>Sets <see cref="ItemsSource"/> to <paramref name="source"/> whilst retaining the same <see cref="BoardIndex"/>.</summary>
+        /// <param name="source"></param>
+        public void UpdateItemsSource(IEnumerable<Board> source)
+        {
+            ItemsSource = source;
+            BoardIndex = index;
         }
         private IEnumerable<Board> boards;
         /// <summary>Invoked when the data within <see cref="ItemsSource"/> has been changed.</summary>
