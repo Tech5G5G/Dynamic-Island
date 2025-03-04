@@ -28,3 +28,4 @@ global using Dynamic_Island.Controls;
 global using Dynamic_Island.Extensions;
 global using Dynamic_Island.Settings;
 global using Dynamic_Island.Settings.Pages;
+global using WinUIEx;
