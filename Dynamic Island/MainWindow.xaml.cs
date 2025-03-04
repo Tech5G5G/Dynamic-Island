@@ -365,7 +365,7 @@ namespace Dynamic_Island
             window.BoardCreated += (e) =>
             {
                 Board.AddBoard(e);
-                widgetsPanel.ItemsSource = Board.Current;
+                widgetsPanel.UpdateItemsSource(Board.Current);
                 boardsSelector.Items.Insert(boardsSelector.Items.Count - 1, new() { Icon = new SymbolIcon(e.Icon), Text = e.Name, Padding = new(4), Margin = new(4, 0, 0, 0) });
             };
             window.Activate();
@@ -392,7 +392,7 @@ namespace Dynamic_Island
                 var board = widgetsPanel.CurrentBoard;
                 board.Widgets = [.. board.Widgets, new() { Type = type, Size = size, Index = 1 }];
                 Board.UpdateBoard(widgetsPanel.BoardIndex, board);
-                widgetsPanel.ItemsSource = Board.Current;
+                widgetsPanel.UpdateItemsSource(Board.Current);
             };
         }
 

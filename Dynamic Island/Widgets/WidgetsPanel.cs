@@ -30,6 +30,7 @@
                 base.ItemsSource = widgets;
                 cachedWidgets.Clear();
                 cachedWidgets.Add(0, widgets);
+                BoardIndex = index;
             }
         }
         private IEnumerable<Board> boards;
