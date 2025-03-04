@@ -63,6 +63,14 @@ namespace Dynamic_Island
 
             Board.CurrentLoaded += (s) => widgetsPanel.ItemsSource = s;
             widgetsPanel.ItemsSourceUpdated += (s, e) => Board.UpdateBoard(s.ToList().IndexOf(e), e);
+            Board.CurrentLoaded += (s) =>
+            {
+                widgetsPanel.ItemsSource = s;
+                foreach (var board in s)
+                    boardsSelector.Items.Add(new() { Icon = new SymbolIcon(board.Icon), Text = board.Name, Padding = new(4), Margin = new(4, 0, 0, 0) });
+                boardsSelector.Items.Add(new() { Icon = new FontIcon { Glyph = "\uE7B8" }, Text = "Tray", Padding = new(4), Margin = new(4, 0, 0, 0) });
+            };
+            boardsSelector.SelectionChanged += (s, e) => widgetsPanel.BoardIndex = s.Items.IndexOf(s.SelectedItem);
 
             ApplySettings();
             AddDropHandlers();
