@@ -1,12 +1,12 @@
-﻿using Windows.UI.ViewManagement;
-using WinUIEx;
+﻿using Microsoft.UI.Xaml.Shapes;
+using Windows.UI.ViewManagement;
 
 namespace Dynamic_Island.Controls
 {
     [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(Content))]
     public abstract class ThemeWindow : Window
     {
-        protected static class Brushes
+        private static class Brushes
         {
             public static SolidColorBrush IndianRed { get; } = new(Colors.IndianRed);
             public static SolidColorBrush DarkIndianRed { get; } = new(new() { A = 0xFF, R = 0x8C, G = 0x3F, B = 0x3F });
@@ -87,5 +87,18 @@ namespace Dynamic_Island.Controls
         /// <param name="scale">The current <see cref="XamlRoot.RasterizationScale"/> of the window.</param>
         /// <returns>An array of <see cref="RectInt32"/> containing the passthrough areas for the title bar.</returns>
         protected abstract RectInt32[] CaptionCutoutsRequested(double scale);
+
+        /// <summary>Sets the close button of the window.</summary>
+        /// <param name="shape">The <see cref="Shape"/> to set the close button as.</param>
+        public void SetCloseButton(Shape shape)
+        {
+            shape.PointerPressed += (s, e) => shape.Fill = Brushes.DarkIndianRed;
+            shape.PointerExited += (s, e) => shape.Fill = Brushes.IndianRed;
+            shape.PointerReleased += (s, e) =>
+            {
+                shape.Fill = Brushes.IndianRed;
+                Close();
+            };
+        }
     }
 }
