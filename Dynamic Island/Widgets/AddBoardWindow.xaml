@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:ThemeWindow
+    x:Class="Dynamic_Island.Widgets.AddBoardWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dynamic_Island.Widgets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Dynamic_Island.Controls"
+    mc:Ignorable="d"
+    Title="Add Board" Width="600" Height="500">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="31" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="titleBar" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Spacing="8">
+                <Ellipse x:Name="close" Height="12" Width="12" Fill="IndianRed" />
+                <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+                <Ellipse Height="12" Width="12" Fill="{ThemeResource DisabledCaption}" />
+            </StackPanel>
+        </Grid>
+        <Grid RowSpacing="4" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Ellipse Fill="{ThemeResource LayerOnAcrylicFillColorDefault}" Stroke="{ThemeResource CardStrokeColorDefault}" Width="100" Height="100" />
+                <FontIcon x:Name="icon" Glyph="&#57615;" FontSize="50" Margin="1,0,0,0" />
+            </Grid>
+            <TextBox x:Name="name" Text="Home" PlaceholderText="Name" TextAlignment="Center" Background="{ThemeResource LayerOnAcrylicFillColorDefault}" Width="100" Padding="6" BorderThickness="0" Grid.Row="1" />
+            <GridView x:Name="icons" Padding="0" Grid.Row="2">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <FontIcon Glyph="{x:Bind}" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <Button Content="Add" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Center" Margin="0,0,0,4" Click="AddBoard" Grid.Row="3" />
+        </Grid>
+    </Grid>
+</controls:ThemeWindow>
