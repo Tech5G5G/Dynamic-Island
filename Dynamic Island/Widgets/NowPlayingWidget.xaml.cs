@@ -10,9 +10,10 @@ namespace Dynamic_Island.Widgets
             this.InitializeComponent();
             Size = WidgetSize.Wide;
 
-            MediaHelper.MediaPropertiesChanged += MediaPropertiesChanged;
-            MediaHelper.TimelinePropertiesChanged += TimelinePropertiesChanged;
-            MediaHelper.PlaybackInfoChanged += PlaybackInfoChanged;
+            MediaHelper.MediaPropertiesChanged += (e) => DispatcherQueue.TryEnqueue(() => UpdateMediaUI(e));
+            MediaHelper.TimelinePropertiesChanged += (e) => DispatcherQueue.TryEnqueue(() => UpdateTimelineUI(e));
+            MediaHelper.PlaybackInfoChanged += (e) => DispatcherQueue.TryEnqueue(() => UpdatePlaybackUI(e));
+            GetCurrentUI();
 
             title.RegisterPropertyChangedCallback(TextBlock.TextProperty, TextChanged);
             artist.RegisterPropertyChangedCallback(TextBlock.TextProperty, TextChanged);
@@ -24,62 +25,43 @@ namespace Dynamic_Island.Widgets
             };
         }
 
-        private void MediaPropertiesChanged(GlobalSystemMediaTransportControlsSessionMediaProperties props)
+        public async void GetCurrentUI()
         {
-            if (props is null)
-                ResetUI(0);
-            else
-                DispatcherQueue.TryEnqueue(async () =>
-                {
-                    mediaThumbnail.Source = props.Thumbnail is IRandomAccessStreamReference stream ? new BitmapImage().AddSource(await stream.OpenReadAsync()) : null;
-                    title.Text = props.Title;
-                    artist.Text = string.IsNullOrWhiteSpace(props.Artist) ? props.AlbumArtist : props.Artist;
-                    album.Text = props.AlbumTitle;
-                });
-        }
-        private void TimelinePropertiesChanged(GlobalSystemMediaTransportControlsSessionTimelineProperties props)
-        {
-            if (props is null)
-                ResetUI(1);
-            else
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    mediaProgress.Minimum = props.StartTime.TotalSeconds;
-                    mediaProgress.Maximum = props.EndTime.TotalSeconds;
-                    mediaProgress.Value = props.Position.TotalSeconds;
-                });
-        }
-        private void PlaybackInfoChanged(GlobalSystemMediaTransportControlsSessionPlaybackInfo info)
-        {
-            if (info is null)
-                ResetUI(2);
-            else
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    previous.IsEnabled = toggle.IsEnabled = next.IsEnabled = true;
-                    toggle.Content = new FontIcon { Glyph = info.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing ? "\uE769" : "\uE768" };
-                });
+            if (MediaHelper.SessionExists)
+            {
+                UpdateMediaUI(await MediaHelper.GetMediaPropertiesAsync());
+                UpdateTimelineUI(MediaHelper.GetTimelineProperties());
+                UpdatePlaybackUI(MediaHelper.GetPlaybackInfo());
+            }
         }
 
-        private void ResetUI(int ui) => DispatcherQueue.TryEnqueue(() =>
+        public async void UpdateMediaUI(GlobalSystemMediaTransportControlsSessionMediaProperties props)
         {
-            if (ui == 0 || ui == 2)
+            bool propsUsable = props is not null;
+            mediaThumbnail.Source = propsUsable && props.Thumbnail is IRandomAccessStreamReference stream ? new BitmapImage().AddSource(await stream.OpenReadAsync()) : new BitmapImage { UriSource = new(Assets.DefaultMedia) };
+            title.Text = propsUsable ? props.Title : "Not playing";
+            artist.Text = propsUsable ? string.IsNullOrWhiteSpace(props.Artist) ? props.AlbumArtist : props.Artist : string.Empty;
+            album.Text = propsUsable ? props.AlbumTitle : string.Empty;
+        }
+        public void UpdateTimelineUI(GlobalSystemMediaTransportControlsSessionTimelineProperties props)
+        {
+            bool propsUsable = props is not null;
+            mediaProgress.Minimum = propsUsable ? props.StartTime.TotalSeconds : 0;
+            mediaProgress.Maximum = propsUsable ? props.EndTime.TotalSeconds : 1;
+            mediaProgress.Value = propsUsable ? props.Position.TotalSeconds : 0;
+        }
+        public void UpdatePlaybackUI(GlobalSystemMediaTransportControlsSessionPlaybackInfo info)
+        {
+            bool infoUsable = info is not null;
+            previous.IsEnabled = toggle.IsEnabled = next.IsEnabled = infoUsable;
+            toggle.Content = new FontIcon { Glyph = infoUsable && info.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing ? "\uE769" : "\uE768" };
+
+            if (!infoUsable)
             {
-                mediaThumbnail.Source = new BitmapImage { UriSource = new(Assets.DefaultMedia) };
-                title.Text = "Not playing";
-                artist.Text = album.Text = string.Empty;
+                UpdateMediaUI(null);
+                UpdateTimelineUI(null);
             }
-            if (ui == 1 || ui == 2)
-            {
-                mediaProgress.Maximum = 1;
-                mediaProgress.Value = mediaProgress.Minimum = 0;
-            }
-            if (ui == 2)
-            {
-                previous.IsEnabled = toggle.IsEnabled = next.IsEnabled = false;
-                toggle.Content = new FontIcon { Glyph = "\uE768" };
-            }
-        });
+        }
 
         private void TextChanged(DependencyObject sender, DependencyProperty e)
         {
