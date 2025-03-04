@@ -388,6 +388,11 @@ namespace Dynamic_Island
             var window = App.AddWidgetWindow = new();
             window.Activate();
             window.DragWidget += (s) => movingWidget = true;
+            window.Closed += (s, e) =>
+            {
+                pointerInMenu = false;
+                Pill_Toggle(false);
+            };
             window.WidgetPicked += (type, size) =>
             {
                 var board = widgetsPanel.CurrentBoard;
@@ -426,8 +431,11 @@ namespace Dynamic_Island
         private void Flyout_Opening(object sender, object e) => pointerInMenu = true;
         private void Flyout_Closed(object sender, object e)
         {
+            if (App.AddWidgetWindow is null)
+            {
             pointerInMenu = false;
             Pill_Toggle(false, addCheck: WindowHelper.CursorInWindow(this));
+        }
         }
 
         private void Pill_PointerExited(object sender, PointerRoutedEventArgs e) => Pill_Toggle(false, addCheck: pointerInMenu || movingWidget);
