@@ -76,12 +76,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <SelectorBar>
-                    <SelectorBarItem Text="Home" />
-                    <SelectorBarItem Text="Now playing" />
-                    <SelectorBarItem Text="Tray" />
-                    <SelectorBarItem Text="AI?" />
-                </SelectorBar>
+                <SelectorBar x:Name="boardsSelector" Padding="2,4,4,4" />
                 <StackPanel Orientation="Horizontal" Spacing="4" Padding="4" HorizontalAlignment="Right">
                     <Button Content="{ui:FontIcon Glyph=&#xE710;}" Style="{ThemeResource TransparentButtonStyle}" Padding="1,1,0,0" CornerRadius="{x:Bind UIRadius.Value, Mode=OneWay}">
                         <Button.Flyout>
