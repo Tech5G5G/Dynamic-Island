@@ -62,9 +62,22 @@ public class Board
     /// <summary>Updates the saved <see cref="Board"/> at <paramref name="index"/> with <paramref name="newValue"/>.</summary>
     /// <param name="index">The index of the <see cref="Board"/> to update.</param>
     /// <param name="newValue">The new value for the <see cref="Board"/>.</param>
-    public async static void UpdateBoard(int index, Board newValue)
+    public static void UpdateBoard(int index, Board newValue)
     {
         Current[index] = newValue;
+        Save();
+    }
+
+    /// <summary>Adds <paramref name="newValue"/> to the end of <see cref="Current"/>.</summary>
+    /// <param name="newValue">The <see cref="Board"/> to add.</param>
+    public static void AddBoard(Board newValue)
+    {
+        Current = [.. Current, newValue];
+        Save();
+    }
+
+    private async static void Save()
+    {
         var file = await localFolder.CreateFileAsync(BoardsFileName, CreationCollisionOption.ReplaceExisting);
         await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(Current));
     }
