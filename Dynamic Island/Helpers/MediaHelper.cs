@@ -22,6 +22,29 @@ public static class MediaHelper
     /// <summary>Gets a <see langword="bool"/> determining whether a session is active and existant.</summary>
     public static bool SessionExists => session is not null;
 
+    /// <summary>Tries to get the playback info of the current session.</summary>
+    /// <returns>If <see cref="SessionExists"/> is <see langword="true"/>, <see cref="GlobalSystemMediaTransportControlsSessionPlaybackInfo"/>. Otherwise, <see langword="null"/>.</returns>
+    public static GlobalSystemMediaTransportControlsSessionPlaybackInfo GetPlaybackInfo() => session?.GetPlaybackInfo();
+    /// <summary>Tries to get the timeline properties of the current session.</summary>
+    /// <returns>If <see cref="SessionExists"/> is <see langword="true"/>, <see cref="GlobalSystemMediaTransportControlsSessionTimelineProperties"/>. Otherwise, <see langword="null"/>.</returns>
+    public static GlobalSystemMediaTransportControlsSessionTimelineProperties GetTimelineProperties() => session?.GetTimelineProperties();
+    /// <summary>Tries to get the media properties of the current session.</summary>
+    /// <returns>If <see cref="SessionExists"/> is <see langword="true"/>, <see cref="GlobalSystemMediaTransportControlsSessionMediaProperties"/>; otherwise, <see langword="null"/>, asynchronously.</returns>
+    public async static Task<GlobalSystemMediaTransportControlsSessionMediaProperties> GetMediaPropertiesAsync()
+    {
+        if (session is null)
+            return null;
+        var props = await AssignerHelper.TryAssignAsync(() => session.TryGetMediaPropertiesAsync().AsTask());
+        if (props is null && tries <= 10)
+        {
+            tries++;
+            return await GetMediaPropertiesAsync();
+        }
+        tries = 0;
+        return props;
+    }
+    static int tries = 0; //Avoids stack overflows :)
+
     private static GlobalSystemMediaTransportControlsSession session;
     private static GlobalSystemMediaTransportControlsSessionManager sessionManager;
 
@@ -39,37 +62,17 @@ public static class MediaHelper
         if (session is null)
             return;
 
-        session.MediaPropertiesChanged += (s, e) => GetMediaProperties();
+        session.MediaPropertiesChanged += (s, e) => UpdateMediaProperties();
         session.PlaybackInfoChanged += (s, e) => UpdatePlaybackInfo();
         session.TimelinePropertiesChanged += (s, e) => UpdateTimeline();
-        GetMediaProperties();
+        UpdateMediaProperties();
     }
 
-    private static void UpdatePlaybackInfo() => PlaybackInfoChanged?.Invoke(session?.GetPlaybackInfo());
-    private static void UpdateTimeline() => TimelinePropertiesChanged?.Invoke(session?.GetTimelineProperties());
-
-    static int tries = 0; //Avoids stack overflows :)
-    private static async void GetMediaProperties()
+    private static void UpdatePlaybackInfo() => PlaybackInfoChanged?.Invoke(GetPlaybackInfo());
+    private static void UpdateTimeline() => TimelinePropertiesChanged?.Invoke(GetTimelineProperties());
+    private static async void UpdateMediaProperties()
     {
-        if (session is null)
-        {
-            UpdateMediaProperties(null);
-            return;
-        }
-        var props = await AssignerHelper.TryAssignAsync(() => session.TryGetMediaPropertiesAsync().AsTask());
-        if (props is not null)
-            UpdateMediaProperties(props);
-        else if (tries <= 10)
-        {
-            tries++;
-            GetMediaProperties();
-            return;
-        }
-        tries = 0;
-    }
-    private static void UpdateMediaProperties(GlobalSystemMediaTransportControlsSessionMediaProperties props)
-    {
-        MediaPropertiesChanged?.Invoke(props);
+        MediaPropertiesChanged?.Invoke(await GetMediaPropertiesAsync());
         UpdatePlaybackInfo();
     }
 }
